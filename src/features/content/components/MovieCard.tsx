@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Star, Tag, ExternalLink, Bookmark, BookmarkCheck, Sparkles, SkipForward, Info, Target, Users, Film, Award, Zap } from 'lucide-react';
+import { Star, Tag, ExternalLink, Bookmark, BookMarked, Sparkles, SkipForward, Info, Target, Users, Film, Award, Zap } from 'lucide-react';
 import { tmdbService } from '../services/tmdb';
 import type { Movie, TVShow, Genre } from '../types';
 
@@ -351,7 +351,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
                     >
                       {isInWatchlist ? (
                         <>
-                          <BookmarkCheck className="h-4 w-4" />
+                          <BookMarked className="h-4 w-4" />
                           <span>Listede</span>
                         </>
                       ) : (
