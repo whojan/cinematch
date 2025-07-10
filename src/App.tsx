@@ -11,7 +11,6 @@ import { LoadingSpinner, SearchResultsSummary, Sidebar } from './shared/componen
 import { useMovieData } from './features/recommendation/hooks/useMovieData';
 import { useSettings } from './features/profile/hooks/useSettings';
 import { LearningService } from './features/learning/services/learningService';
-import { RealTimeLearningService } from './features/learning/services/realTimeLearningService';
 import { OnboardingFlow } from './features/onboarding';
 import { Sparkles, Star, Target, Brain, TestTube, TrendingUp, RefreshCw, Zap, Search, Menu, LogIn, User } from 'lucide-react';
 import { FeaturedLists } from './features/content/components/FeaturedLists';
@@ -25,7 +24,7 @@ function App() {
 
   // Authentication state
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [isNewUser, setIsNewUser] = useState(false);
+  // const [isNewUser, setIsNewUser] = useState(false);
 
   // Dummy state to force re-render/useMovieData refresh
   const [_ratingsRefresh, setRatingsRefresh] = useState(0);
@@ -223,7 +222,6 @@ function App() {
     try {
       await register(userData);
       setShowAuthModal(false);
-      setIsNewUser(true);
       // Yeni kullanıcı kaydı sonrası onboarding başlat
       setShowOnboarding(true);
     } catch (error) {
