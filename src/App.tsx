@@ -25,6 +25,7 @@ function App() {
 
   // Authentication state
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [isNewUser, setIsNewUser] = useState(false);
 
   // Dummy state to force re-render/useMovieData refresh
   const [_ratingsRefresh, setRatingsRefresh] = useState(0);
@@ -91,6 +92,14 @@ function App() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showInitialSettings, setShowInitialSettings] = useState(false);
+
+  // Auth modal'ı zorunlu hale getir - kullanıcı giriş yapmamışsa göster
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      setShowAuthModal(true);
+    }
+  }, [authLoading, isAuthenticated]);
 
   const getPhaseInfo = useCallback(() => {
     // Hiç veri yoksa özel mesaj göster
@@ -186,12 +195,49 @@ function App() {
     
     if (redirectToSettings) {
       // İlk kurulum için ayarlar sayfasına yönlendir
-      setActiveTab('settings');
+      setShowInitialSettings(true);
     } else {
       // Normal durumda AI önerileri ekranına git
       setActiveTab('recommendations');
     }
   }, []);
+
+  const handleInitialSettingsComplete = useCallback(() => {
+    setShowInitialSettings(false);
+    setActiveTab('recommendations');
+  }, []);
+
+  // Auth handlers
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      await login(email, password);
+      setShowAuthModal(false);
+      // Mevcut kullanıcı girişi yapıldığında ana ekrana geç
+      setActiveTab('discovery');
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleRegister = async (userData: { email: string; password: string; firstName: string; lastName: string }) => {
+    try {
+      await register(userData);
+      setShowAuthModal(false);
+      setIsNewUser(true);
+      // Yeni kullanıcı kaydı sonrası onboarding başlat
+      setShowOnboarding(true);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleForgotPassword = async (email: string) => {
+    try {
+      await forgotPassword(email);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   // Başka bir sekmede veya BFI gibi farklı bir bileşende puan verildiğinde ratings'i anında güncelle
   useEffect(() => {
@@ -200,25 +246,79 @@ function App() {
         setRatingsRefresh(r => r + 1);
       }
     };
+
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
   }, []);
 
-  useEffect(() => {
-    RealTimeLearningService.initialize();
-  }, []);
-
+  // Mobile detection
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-  
+
+  // Loading state
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-theme-background flex items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  // Auth modal gösteriliyorsa sadece modal'ı göster
+  if (showAuthModal) {
+    return (
+      <div className="min-h-screen bg-theme-background">
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onLogin={handleLogin}
+          onRegister={handleRegister}
+          onForgotPassword={handleForgotPassword}
+          isLoading={authLoading}
+          initialMode="register"
+        />
+      </div>
+    );
+  }
+
+  // Onboarding gösteriliyorsa sadece onboarding'i göster
+  if (showOnboarding) {
+    return (
+      <div className="min-h-screen bg-theme-background">
+        <OnboardingFlow
+          genres={genres || []}
+          onComplete={handleOnboardingComplete}
+          onRate={rateMovie}
+          getUserRating={getUserRating}
+          isInWatchlist={isInWatchlist}
+          onAddToWatchlist={addToWatchlist}
+          onRemoveFromWatchlist={removeFromWatchlist}
+        />
+      </div>
+    );
+  }
+
+  // İlk kurulum ayarları gösteriliyorsa sadece ayarları göster
+  if (showInitialSettings) {
+    return (
+      <div className="min-h-screen bg-theme-background">
+        <SettingsPage
+          settings={settings}
+          onSettingsChange={updateSettings}
+          isInitialSetup={true}
+          onInitialSetupComplete={handleInitialSettingsComplete}
+        />
+      </div>
+    );
+  }
+
   // AI önerileri ekranında AI öğrenme içeriklerini yükle
   useEffect(() => {
     if (activeTab === 'recommendations' && !hasEnoughRatingsForAI && curatedContentLoading && movies.length === 0) {
@@ -266,21 +366,6 @@ function App() {
   const totalRecommendations = recommendations?.length || 0;
   const totalFilteredRecommendations = filteredRecommendations?.length || 0;
 
-
-  // Onboarding gösteriliyorsa sadece onboarding'i göster
-  if (showOnboarding) {
-    return (
-      <OnboardingFlow
-        genres={genres || []}
-        onComplete={handleOnboardingComplete}
-        onRate={rateMovie}
-        getUserRating={getUserRating}
-        isInWatchlist={isInWatchlist}
-        onAddToWatchlist={addToWatchlist}
-        onRemoveFromWatchlist={removeFromWatchlist}
-      />
-    );
-  }
 
   return (
     <div className="min-h-screen bg-brand-dark flex">
