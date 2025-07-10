@@ -208,7 +208,7 @@ export const BfiTopFilms: React.FC = () => {
 
   return (
     <div className="px-2 sm:px-4 lg:px-8 w-full">
-      <h1 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-theme-primary mb-6 flex items-center gap-2">
         <span role="img" aria-label="BFI">🎬</span> BFI Sight & Sound En İyi Filmler
       </h1>
       <div className="mb-4 text-slate-300 font-medium">Toplam {(bfiList as any[]).length} film</div>
@@ -216,7 +216,7 @@ export const BfiTopFilms: React.FC = () => {
       <div className="mb-6 flex flex-wrap gap-4 items-center">
         {/* Tür filtresi */}
         <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-white font-medium mr-2">Tür:</span>
+          <span className="text-theme-primary font-medium mr-2">Tür:</span>
           {genres.map(genre => (
             <button
               key={genre.id}
@@ -241,7 +241,7 @@ export const BfiTopFilms: React.FC = () => {
           <span>{watchlistedCount} Adet</span> Listeye Eklenenleri Gizle
         </label>
       </div>
-      {loading && <div className="text-white mb-4">Yükleniyor...</div>}
+              {loading && <div className="text-theme-primary mb-4">Yükleniyor...</div>}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-2 sm:px-4 lg:px-8 w-full overflow-x-hidden">
         {pagedFilms.map((film: any) => {
           const details = movieDetailsMap[film.tmdb_id] || null;
@@ -285,7 +285,7 @@ export const BfiTopFilms: React.FC = () => {
         >
           Önceki
         </button>
-        <span className="text-white font-medium">
+                  <span className="text-theme-primary font-medium">
           Sayfa {page} / {totalPages}
         </span>
         <button

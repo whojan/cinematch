@@ -77,7 +77,7 @@ export const ContentFiltersComponent: React.FC<ContentFiltersProps> = React.memo
       >
         <div className="flex items-center space-x-3">
           <Filter className="h-4 w-4 text-slate-400" />
-          <span className="text-white font-medium">Filtreler</span>
+                        <span className="text-theme-primary font-medium">Filtreler</span>
           {activeFiltersCount > 0 && (
             <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-full">
               {activeFiltersCount}

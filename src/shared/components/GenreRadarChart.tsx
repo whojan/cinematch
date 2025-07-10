@@ -64,7 +64,7 @@ export const GenreRadarChart: React.FC<GenreRadarChartProps> = ({ profile, genre
 
   return (
     <div className="bg-slate-700 rounded-lg p-4">
-      <h3 className="text-white font-semibold mb-4 text-center">Tür Tercihleri Radar Grafiği</h3>
+              <h3 className="text-theme-primary font-semibold mb-4 text-center">Tür Tercihleri Radar Grafiği</h3>
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={adjustedData} margin={{ top: 20, right: 30, bottom: 20, left: 30 }}>

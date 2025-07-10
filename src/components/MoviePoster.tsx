@@ -109,7 +109,7 @@ export const MoviePoster: React.FC<MoviePosterProps> = ({
       {/* Hover overlay effect */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <div className="absolute bottom-2 left-2 right-2">
-          <div className="text-white text-sm font-medium line-clamp-2">
+          <div className="text-theme-primary text-sm font-medium line-clamp-2">
             {alt}
           </div>
         </div>
