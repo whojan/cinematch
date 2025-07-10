@@ -13,12 +13,18 @@ import { useSettings } from './features/profile/hooks/useSettings';
 import { LearningService } from './features/learning/services/learningService';
 import { RealTimeLearningService } from './features/learning/services/realTimeLearningService';
 import { OnboardingFlow } from './features/onboarding';
-import { Sparkles, Star, Target, Brain, TestTube, TrendingUp, RefreshCw, Zap, Search, Menu } from 'lucide-react';
+import { Sparkles, Star, Target, Brain, TestTube, TrendingUp, RefreshCw, Zap, Search, Menu, LogIn, User } from 'lucide-react';
 import { FeaturedLists } from './features/content/components/FeaturedLists';
 import { SkippedContentModal } from './features/profile/components/SkippedContentModal';
+import { useAuth } from './contexts/AuthContext';
+import { AuthModal } from './components/auth/AuthModal';
 
 function App() {
   const { settings, updateSettings } = useSettings();
+  const { user, isLoading: authLoading, isAuthenticated, login, register, logout, forgotPassword } = useAuth();
+
+  // Authentication state
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   // Dummy state to force re-render/useMovieData refresh
   const [_ratingsRefresh, setRatingsRefresh] = useState(0);
@@ -298,6 +304,7 @@ function App() {
         isMobile={isMobile}
         isOpen={isMobileSidebarOpen}
         onToggle={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+        onShowAuth={() => setShowAuthModal(true)}
       />
 
       {/* Main Content */}
@@ -320,9 +327,34 @@ function App() {
                   CineMatch
                 </h1>
               </div>
+              
+              {/* Auth Section */}
+              <div className="flex items-center space-x-2">
+                {isAuthenticated ? (
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 bg-theme-tertiary rounded-lg px-3 py-2">
+                      <User className="h-4 w-4 text-theme-secondary" />
+                      <span className="text-sm text-theme-primary">{user?.firstName}</span>
+                    </div>
+                    <button
+                      onClick={logout}
+                      className="p-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 transition-colors"
+                      title="Çıkış Yap"
+                    >
+                      <LogIn className="h-4 w-4 rotate-180" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowAuthModal(true)}
+                    className="flex items-center space-x-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-4 py-2 rounded-lg text-sm font-medium transition-all hover:shadow-lg"
+                  >
+                    <LogIn className="h-4 w-4" />
+                    <span>Giriş</span>
+                  </button>
+                )}
+              </div>
             </div>
-            
-
           </div>
         )}
 
@@ -788,6 +820,36 @@ function App() {
             setShowProfileForm(false);
           }}
           currentProfile={profile}
+        />
+
+        {/* Authentication Modal */}
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onLogin={async (email, password) => {
+            try {
+              await login(email, password);
+              setShowAuthModal(false);
+            } catch (error) {
+              throw error; // Let the form handle the error
+            }
+          }}
+          onRegister={async (userData) => {
+            try {
+              await register(userData);
+              setShowAuthModal(false);
+            } catch (error) {
+              throw error; // Let the form handle the error
+            }
+          }}
+          onForgotPassword={async (email) => {
+            try {
+              await forgotPassword(email);
+            } catch (error) {
+              throw error; // Let the form handle the error
+            }
+          }}
+          isLoading={authLoading}
         />
       </div>
     </div>

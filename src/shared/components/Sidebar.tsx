@@ -10,8 +10,11 @@ import {
   RefreshCw,
   User,
   Award,
-  Eye
+  Eye,
+  LogIn,
+  LogOut
 } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface SidebarProps {
   activeTab: string;
@@ -30,6 +33,7 @@ interface SidebarProps {
   isMobile: boolean;
   isOpen: boolean;
   onToggle: () => void;
+  onShowAuth?: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -48,8 +52,10 @@ const Sidebar: React.FC<SidebarProps> = ({
   showingCuratedMovies,
   isMobile,
   isOpen,
-  onToggle
+  onToggle,
+  onShowAuth
 }) => {
+  const { user, isAuthenticated, logout } = useAuth();
   const menuItems = [
     {
       id: 'discovery',
@@ -218,9 +224,39 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="px-2 py-3 border-t border-theme-primary text-center">
-        <p className="text-xs text-theme-tertiary">AI Destekli Öneri Sistemi</p>
+      {/* Authentication Section */}
+      <div className="px-2 py-3 border-t border-theme-primary">
+        {isAuthenticated ? (
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2 bg-theme-secondary rounded-lg p-2">
+              <User className="h-4 w-4 text-theme-secondary" />
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-theme-primary truncate">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-xs text-theme-tertiary truncate">
+                  {user?.email}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={logout}
+              className="w-full flex items-center justify-center space-x-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-2 py-1.5 rounded-lg text-xs font-medium transition-colors"
+            >
+              <LogOut className="h-3 w-3" />
+              <span>Çıkış Yap</span>
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={onShowAuth}
+            className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-3 py-2 rounded-lg text-xs font-medium transition-all hover:shadow-lg"
+          >
+            <LogIn className="h-3 w-3" />
+            <span>Giriş Yap</span>
+          </button>
+        )}
+        <p className="text-xs text-theme-tertiary text-center mt-2">AI Destekli Öneri Sistemi</p>
       </div>
     </div>
   );

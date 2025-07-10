@@ -2,43 +2,96 @@ const express = require('express');
 const cors = require('cors');
 const { spawn } = require('child_process');
 const path = require('path');
-const mongoose = require('mongoose');
 const compression = require('compression');
 const helmet = require('helmet');
 require('dotenv').config();
 
-// Import services and middleware
-const HybridRecommendationEngine = require('./services/recommendationEngine');
-const { TrackingService } = require('./services/trackingService');
-const { cacheMiddleware, userSpecificCache, invalidateCache } = require('./middleware/cacheMiddleware');
+// Import database and services
+const { testConnection, shutdown } = require('./config/database');
+const { runMigrations } = require('./scripts/migrate');
+// Temporarily disabled mongoose-based services
+// const HybridRecommendationEngine = require('./services/recommendationEngine');
+// const { TrackingService } = require('./services/trackingService');
+// const { cacheMiddleware, userSpecificCache, invalidateCache } = require('./middleware/cacheMiddleware');
+
+// Import routes
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+
+// Import middleware
+const { standardLimiter, logRateLimit } = require('./middleware/rateLimiter');
+const { verifyToken, optionalAuth } = require('./middleware/auth');
 
 const app = express();
 
 // Security and performance middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"]
+    }
+  }
+}));
 app.use(compression());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
 app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/cinematch', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+// Trust proxy for rate limiting
+app.set('trust proxy', 1);
 
-// Initialize services
-const recommendationEngine = new HybridRecommendationEngine();
-const trackingService = new TrackingService();
+// Global rate limiting
+app.use(standardLimiter);
+app.use(logRateLimit);
+
+// Initialize database connection and run migrations
+const initializeDatabase = async () => {
+  try {
+    console.log('🔗 Testing database connection...');
+    const isConnected = await testConnection();
+    
+    if (isConnected) {
+      console.log('🚀 Running database migrations...');
+      await runMigrations();
+      console.log('✅ Database setup completed successfully');
+    } else {
+      throw new Error('Database connection failed');
+    }
+  } catch (error) {
+    console.error('❌ Database initialization failed:', error.message);
+    process.exit(1);
+  }
+};
+
+// Initialize services (temporarily disabled)
+// const recommendationEngine = new HybridRecommendationEngine();
+// const trackingService = new TrackingService();
 
 // İlerleme takibi için eventId -> response map'i
 const progressClients = {};
 let eventCounter = 1;
 
-// ===== RECOMMENDATION SYSTEM API ENDPOINTS =====
+// ===== ROUTES =====
+
+// Authentication routes
+app.use('/api/auth', authRoutes);
+
+// User data routes (protected)
+app.use('/api/user', userRoutes);
+
+// ===== RECOMMENDATION SYSTEM API ENDPOINTS (TEMPORARILY DISABLED) =====
 
 // Get recommendations for a user
+/*
 app.get('/api/recommendations/:userId', userSpecificCache(60), async (req, res) => {
   try {
     const { userId } = req.params;
@@ -218,26 +271,44 @@ app.delete('/api/cache/recommendations/:userId', async (req, res) => {
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
   try {
-    const mongoStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    const { query } = require('./config/database');
     
-    res.json({
+    // Test database connection
+    let dbStatus = 'disconnected';
+    try {
+      await query('SELECT 1');
+      dbStatus = 'connected';
+    } catch (dbError) {
+      console.error('Database health check failed:', dbError.message);
+    }
+    
+    const healthStatus = {
       success: true,
-      status: 'healthy',
+      status: dbStatus === 'connected' ? 'healthy' : 'unhealthy',
       services: {
-        mongodb: mongoStatus,
-        redis: 'connected', // Simplified check
-        recommendation_engine: 'active'
+        database: dbStatus,
+        authentication: 'active',
+        recommendation_engine: 'active',
+        email_service: process.env.EMAIL_USER ? 'configured' : 'not_configured'
       },
-      timestamp: new Date().toISOString()
-    });
+      environment: process.env.NODE_ENV || 'development',
+      timestamp: new Date().toISOString(),
+      version: '2.0.0'
+    };
+
+    const statusCode = healthStatus.status === 'healthy' ? 200 : 503;
+    res.status(statusCode).json(healthStatus);
+    
   } catch (error) {
     res.status(500).json({
       success: false,
       status: 'unhealthy',
-      error: error.message
+      error: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 });
+*/
 
 // ===== EXISTING BFI ENDPOINTS ===== 
 
@@ -341,7 +412,60 @@ app.get('/api/bfi-directors-progress/:eventId', (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Backend API listening on port ${PORT}`);
-});
+// Initialize and start server
+const startServer = async () => {
+  try {
+    // Initialize database first
+    await initializeDatabase();
+    
+    // Start server
+    const PORT = process.env.PORT || 4000;
+    const server = app.listen(PORT, () => {
+      console.log(`🚀 CineMatch Backend API listening on port ${PORT}`);
+      console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
+      console.log(`🔐 Auth endpoints: http://localhost:${PORT}/api/auth`);
+      console.log(`👤 User endpoints: http://localhost:${PORT}/api/user`);
+      console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+
+    // Graceful shutdown handling
+    const gracefulShutdown = async (signal) => {
+      console.log(`\n📢 Received ${signal}. Starting graceful shutdown...`);
+      
+      server.close(async () => {
+        console.log('🔗 HTTP server closed');
+        
+        try {
+          await shutdown();
+          console.log('✅ Graceful shutdown completed');
+          process.exit(0);
+        } catch (error) {
+          console.error('❌ Error during shutdown:', error);
+          process.exit(1);
+        }
+      });
+    };
+
+    // Listen for termination signals
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+    
+    // Handle uncaught exceptions
+    process.on('uncaughtException', (error) => {
+      console.error('❌ Uncaught Exception:', error);
+      gracefulShutdown('UNCAUGHT_EXCEPTION');
+    });
+
+    process.on('unhandledRejection', (reason, promise) => {
+      console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+      gracefulShutdown('UNHANDLED_REJECTION');
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+// Start the server
+startServer();
