@@ -432,7 +432,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
 
         {/* Movie Info - KOMPAKT TASARIM */}
         <div className="p-5">
-          <h3 className="font-bold text-white text-lg mb-2 line-clamp-2 leading-tight">
+          <h3 className="font-bold text-brand-textLight text-lg mb-2 line-clamp-2 leading-tight">
             {title}
           </h3>
           
@@ -508,7 +508,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
             {/* Rating Slider */}
             <div className="bg-slate-700/50 rounded-lg p-3 border border-slate-600/50">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-white font-medium text-sm">Puan</span>
+                <span className="text-brand-textLight font-medium text-sm">Puan</span>
                 <span className={`text-lg font-bold ${
                   tempRating >= 9 ? 'text-green-400' :
                   tempRating >= 7 ? 'text-amber-400' :
@@ -579,10 +579,10 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-auto border border-slate-700/50 shadow-2xl">
             <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
-              <h3 className="text-xl font-bold text-white">{title}</h3>
-              <button
-                onClick={() => setShowDetails(false)}
-                className="text-slate-400 hover:text-white text-2xl transition-colors"
+                          <h3 className="text-xl font-bold text-theme-primary">{title}</h3>
+            <button
+              onClick={() => setShowDetails(false)}
+              className="text-slate-400 hover:text-theme-primary text-2xl transition-colors"
               >
                 ×
               </button>
@@ -641,7 +641,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
                               )}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="text-white font-medium text-sm truncate">{actor.name}</p>
+                              <p className="text-theme-primary font-medium text-sm truncate">{actor.name}</p>
                               <p className="text-slate-400 text-xs truncate">{actor.character}</p>
                             </div>
                           </div>
@@ -674,7 +674,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
                               )}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="text-white font-medium text-sm truncate">{director.name}</p>
+                              <p className="text-theme-primary font-medium text-sm truncate">{director.name}</p>
                               <p className="text-slate-400 text-xs">Yönetmen</p>
                             </div>
                           </div>
@@ -707,7 +707,7 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
                               )}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="text-white font-medium text-sm truncate">{writer.name}</p>
+                              <p className="text-theme-primary font-medium text-sm truncate">{writer.name}</p>
                               <p className="text-slate-400 text-xs truncate">{writer.job}</p>
                             </div>
                           </div>
@@ -723,22 +723,22 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = React.memo(
                 <div className="space-y-4">
                   <div>
                     <span className="text-slate-400 text-sm font-medium">Türler:</span>
-                    <span className="text-white ml-2">{getGenreNames()}</span>
+                    <span className="text-theme-primary ml-2">{getGenreNames()}</span>
                   </div>
                   <div>
                     <span className="text-slate-400 text-sm font-medium">Çıkış Tarihi:</span>
-                    <span className="text-white ml-2">{getReleaseDate()}</span>
+                    <span className="text-theme-primary ml-2">{getReleaseDate()}</span>
                   </div>
                   {movieDetails?.runtime && (
                     <div>
                       <span className="text-slate-400 text-sm font-medium">Süre:</span>
-                      <span className="text-white ml-2">{movieDetails.runtime} dakika</span>
+                      <span className="text-theme-primary ml-2">{movieDetails.runtime} dakika</span>
                     </div>
                   )}
                   {movieDetails?.number_of_seasons && (
                     <div>
                       <span className="text-slate-400 text-sm font-medium">Sezon Sayısı:</span>
-                      <span className="text-white ml-2">{movieDetails.number_of_seasons}</span>
+                      <span className="text-theme-primary ml-2">{movieDetails.number_of_seasons}</span>
                     </div>
                   )}
                 </div>

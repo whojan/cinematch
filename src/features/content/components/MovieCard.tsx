@@ -474,7 +474,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
             {/* Rating Slider */}
             <div className="bg-slate-700/50 rounded-lg p-3 border border-slate-600/50">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-white font-medium text-sm">Puan</span>
+                <span className="text-brand-textLight font-medium text-sm">Puan</span>
                 <span className={`text-lg font-bold ${
                   tempRating >= 9 ? 'text-green-400' :
                   tempRating >= 7 ? 'text-amber-400' :
@@ -545,10 +545,10 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-auto border border-slate-700/50 shadow-2xl">
             <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
-              <h3 className="text-xl font-bold text-white">{title}</h3>
+              <h3 className="text-xl font-bold text-theme-primary">{title}</h3>
               <button
                 onClick={() => setShowDetails(false)}
-                className="text-slate-400 hover:text-white text-2xl transition-colors"
+                className="text-slate-400 hover:text-theme-primary text-2xl transition-colors"
               >
                 ×
               </button>
@@ -573,7 +573,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
 
               {/* Overview */}
               <div>
-                <h4 className="text-white font-semibold mb-3 flex items-center space-x-2">
+                <h4 className="text-theme-primary font-semibold mb-3 flex items-center space-x-2">
                   <Info className="h-4 w-4 text-blue-400" />
                   <span>Hikaye</span>
                 </h4>
@@ -586,7 +586,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
                   {/* Main Cast */}
                   {cast.length > 0 && (
                     <div>
-                      <h4 className="text-white font-semibold mb-4 flex items-center space-x-2">
+                      <h4 className="text-theme-primary font-semibold mb-4 flex items-center space-x-2">
                         <Users className="h-4 w-4 text-green-400" />
                         <span>Ana Oyuncu Kadrosu</span>
                       </h4>
@@ -607,7 +607,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
                               )}
                             </div>
                             <div>
-                              <div className="text-white font-medium">{actor.name}</div>
+                              <div className="text-theme-primary font-medium">{actor.name}</div>
                               <div className="text-slate-400 text-sm">{actor.character}</div>
                             </div>
                           </div>
@@ -619,7 +619,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
                   {/* Directors */}
                   {directors.length > 0 && (
                     <div>
-                      <h4 className="text-white font-semibold mb-4 flex items-center space-x-2">
+                      <h4 className="text-theme-primary font-semibold mb-4 flex items-center space-x-2">
                         <Film className="h-4 w-4 text-blue-400" />
                         <span>Yönetmenler</span>
                       </h4>
@@ -640,7 +640,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
                               )}
                             </div>
                             <div>
-                              <div className="text-white font-medium">{director.name}</div>
+                              <div className="text-theme-primary font-medium">{director.name}</div>
                               <div className="text-slate-400 text-sm">{director.job}</div>
                             </div>
                           </div>
@@ -652,7 +652,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
                   {/* Writers */}
                   {writers.length > 0 && (
                     <div>
-                      <h4 className="text-white font-semibold mb-4 flex items-center space-x-2">
+                      <h4 className="text-theme-primary font-semibold mb-4 flex items-center space-x-2">
                         <Award className="h-4 w-4 text-purple-400" />
                         <span>Senaristler</span>
                       </h4>
@@ -673,7 +673,7 @@ export const MovieCard: React.FC<MovieCardProps> = React.memo(({
                               )}
                             </div>
                             <div>
-                              <div className="text-white font-medium">{writer.name}</div>
+                              <div className="text-theme-primary font-medium">{writer.name}</div>
                               <div className="text-slate-400 text-sm">{writer.job}</div>
                             </div>
                           </div>

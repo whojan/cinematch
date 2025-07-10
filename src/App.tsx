@@ -441,7 +441,7 @@ function App() {
                       <phaseInfo.icon className={`h-7 w-7 ${phaseInfo.iconColor}`} />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-white">{phaseInfo.title}</h2>
+                      <h2 className="text-2xl font-bold text-theme-primary">{phaseInfo.title}</h2>
                       <div className="flex items-center space-x-2 mt-1">
                         <Sparkles className="h-4 w-4 text-amber-400" />
                         <span className="text-theme-secondary text-sm">AI Destekli Öğrenme Sistemi</span>
@@ -732,7 +732,7 @@ function App() {
                         <div className="mb-6">
                           <div className="flex items-center space-x-3 mb-4">
                             <Brain className="h-6 w-6 text-purple-400" />
-                            <h3 className="text-xl font-semibold text-white">AI Öğrenme Süreci</h3>
+                            <h3 className="text-xl font-semibold text-theme-primary">AI Öğrenme Süreci</h3>
                           </div>
                           <p className="text-theme-secondary text-sm mb-4">
                             AI önerileri alabilmek için önce 10 farklı içerik puanlaman gerekiyor. 

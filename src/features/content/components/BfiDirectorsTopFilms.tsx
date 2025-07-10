@@ -190,12 +190,12 @@ export const BfiDirectorsTopFilms: React.FC = () => {
 
   return (
     <div className="px-2 sm:px-4 lg:px-8 w-full">
-      <h1 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+              <h1 className="text-2xl font-bold text-theme-primary mb-6 flex items-center gap-2">
         <span role="img" aria-label="BFI">🎬</span> BFI Sight & Sound Yönetmenlerin En İyi Filmleri
       </h1>
       <div className="mb-4 text-slate-300 font-medium">Toplam {bfiList.length} film</div>
       <div className="mb-6 flex flex-wrap gap-4 items-center">
-        <span className="text-white font-medium mr-2">Tür:</span>
+                  <span className="text-theme-primary font-medium mr-2">Tür:</span>
         {genres.map(genre => (
           <button
             key={genre.id}

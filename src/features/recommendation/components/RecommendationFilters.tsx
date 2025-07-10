@@ -162,7 +162,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
           className="flex items-center space-x-2 hover:bg-slate-700 transition-colors rounded-lg px-2 py-1"
         >
           <Filter className="h-4 w-4 text-slate-400" />
-          <span className="text-white font-medium">Öneri Filtreleri</span>
+                        <span className="text-theme-primary font-medium">Öneri Filtreleri</span>
           {activeFiltersCount > 0 && (
             <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-full">
               {activeFiltersCount}
@@ -408,7 +408,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                   ))}
                 </select>
                 <button
-                  className="mt-2 text-xs text-slate-400 hover:text-white"
+                  className="mt-2 text-xs text-slate-400 hover:text-theme-primary"
                   onClick={() => setShowOtherLanguages(false)}
                 >Kapat</button>
               </div>
