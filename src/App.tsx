@@ -323,28 +323,7 @@ function App() {
               </div>
             </div>
             
-            {/* Mobile Search */}
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Film, dizi veya kişi ara..."
-                value={searchQuery || ''}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    searchMovies(searchQuery, (results) => setSearchResults(results));
-                  }
-                }}
-                className="w-full bg-theme-tertiary border border-theme-primary rounded-lg px-4 py-2 text-theme-primary placeholder-theme-tertiary focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50"
-              />
-              <button
-                onClick={() => searchMovies(searchQuery, (results) => setSearchResults(results))}
-                disabled={loading}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-lg bg-brand-primary hover:bg-brand-primary/80 disabled:bg-brand-primary/50 transition-colors"
-              >
-                <Search className="h-4 w-4 text-white" />
-              </button>
-            </div>
+
           </div>
         )}
 
