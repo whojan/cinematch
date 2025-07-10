@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from './contexts/AuthContext';
 import { OnboardingFlow } from './features/onboarding/components/OnboardingFlow';
 import { ProfileSection } from './features/profile/components/ProfileSection';
-import { MovieRecommendations } from './components/MovieRecommendations';
+import MovieRecommendations from './components/MovieRecommendations';
 import { RecommendationFilters } from './components/RecommendationFilters';
 import { SearchResultsSummary } from './shared/components/SearchResultsSummary';
 import { FeaturedLists } from './features/content/components/FeaturedLists';
