@@ -281,25 +281,19 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Hızlı Erişim (Sticky Bottom) */}
       <div className="sticky bottom-0 left-0 w-full bg-theme-primary border-t border-theme-primary px-2 py-2 z-10">
         <div className="flex flex-col gap-1">
-          {quickActions.map((action) => {
-            const Icon = action.icon;
-            const isDisabled = action.disabled;
-            return (
-              <button
-                key={action.id}
-                onClick={action.onClick}
-                disabled={isDisabled}
-                className={`w-full flex items-center gap-2 px-2 py-2 rounded-lg text-xs font-medium transition-all duration-150
-                  ${isDisabled ? 'text-theme-tertiary cursor-not-allowed' : 'text-theme-secondary hover:bg-theme-secondary hover:text-amber-300'}`}
-              >
-                <Icon className={`h-4 w-4 ${isDisabled ? 'opacity-50' : ''}`} />
-                <span>{action.label}</span>
-                {action.id === 'clear' && clearLoading && (
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-theme-secondary border-t-transparent"></div>
-                )}
-              </button>
-            );
-          })}
+          <button
+            onClick={() => {
+              onTabChange('settings');
+              // Mobil ekranlarda sayfa seçildikten sonra sidebar'ı kapat
+              if (isMobile && isOpen) {
+                onToggle();
+              }
+            }}
+            className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-xs font-medium transition-all duration-150 text-theme-secondary hover:bg-theme-secondary hover:text-amber-300"
+          >
+            <Settings className="h-4 w-4" />
+            <span>Ayarlar</span>
+          </button>
         </div>
       </div>
 

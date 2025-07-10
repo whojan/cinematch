@@ -154,25 +154,25 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
   const [showOtherLanguages, setShowOtherLanguages] = React.useState(false);
 
   return (
-    <div className="bg-slate-800 rounded-lg border border-slate-700">
+    <div className="bg-theme-card rounded-lg border border-theme-primary">
       {/* Filter Header */}
       <div className="flex items-center justify-between p-4">
         <button
           onClick={onToggle}
-          className="flex items-center space-x-2 hover:bg-slate-700 transition-colors rounded-lg px-2 py-1"
+          className="flex items-center space-x-2 hover:bg-theme-secondary transition-colors rounded-lg px-2 py-1"
         >
-          <Filter className="h-4 w-4 text-slate-400" />
-                        <span className="text-theme-primary font-medium">Öneri Filtreleri</span>
+          <Filter className="h-4 w-4 text-theme-secondary" />
+          <span className="text-theme-primary font-medium">Öneri Filtreleri</span>
           {activeFiltersCount > 0 && (
             <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-full">
               {activeFiltersCount}
             </span>
           )}
-          <span className="text-slate-400 text-sm">
+          <span className="text-theme-secondary text-sm">
             {activeFiltersCount > 0 ? `${activeFiltersCount} filtre aktif` : 'Tüm öneriler'}
           </span>
           <div className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>
-            <svg className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4 text-theme-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
@@ -191,7 +191,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
       {/* Filter Content */}
       {isOpen && (
-        <div className="p-4 border-t border-slate-700 space-y-6">
+        <div className="p-4 border-t border-theme-primary space-y-6">
           {/* Clear Filters */}
           {activeFiltersCount > 0 && (
             <button
@@ -205,13 +205,13 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Sort By */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-theme-primary mb-2">
               Sıralama (Yeni Önerilerde)
             </label>
             <select
               value={filters.sortBy}
               onChange={(e) => updateFilter('sortBy', e.target.value)}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-theme-tertiary border border-theme-primary rounded-lg px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-amber-500"
             >
               <option value="match_score">Eşleşme Oranı (Yüksek → Düşük)</option>
               <option value="rating">TMDB Puanı (Yüksek → Düşük)</option>
@@ -222,7 +222,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Media Type */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-theme-primary mb-2">
               İçerik Türü (Yeni Önerilerde)
             </label>
             <div className="flex space-x-2">
@@ -237,7 +237,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm transition-colors ${
                     filters.mediaType === option.value
                       ? 'bg-amber-500 text-white'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      : 'bg-theme-tertiary text-theme-secondary hover:bg-theme-secondary'
                   }`}
                 >
                   {option.icon && <option.icon className="h-3 w-3" />}
@@ -249,7 +249,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Match Score Range */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-theme-primary mb-2">
               Minimum Eşleşme Oranı (Yeni Önerilerde)
             </label>
             <div className="space-y-3">
@@ -262,10 +262,10 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                   step="5"
                   value={filters.minMatchScore}
                   onChange={(e) => updateFilter('minMatchScore', parseInt(e.target.value))}
-                  className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer slider"
+                  className="w-full h-2 bg-theme-tertiary rounded-lg appearance-none cursor-pointer slider"
                 />
               </div>
-              <div className="flex justify-between text-xs text-slate-400">
+              <div className="flex justify-between text-xs text-theme-tertiary">
                 <span>%0</span>
                 <span className="text-amber-400 font-medium">%{filters.minMatchScore}</span>
                 <span>%100</span>
@@ -275,35 +275,37 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Year Range */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-theme-primary mb-2">
               Yıl Aralığı (Yeni Önerilerde)
             </label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Başlangıç</label>
+                <label className="block text-xs text-theme-tertiary mb-1">Başlangıç</label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 text-slate-400" />
+                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-theme-tertiary" />
                   <input
                     type="number"
                     min="1900"
                     max={new Date().getFullYear()}
                     value={filters.minYear}
                     onChange={(e) => updateFilter('minYear', parseInt(e.target.value))}
-                    className="w-full bg-slate-700 border border-slate-600 rounded-lg pl-8 pr-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full bg-theme-tertiary border border-theme-primary rounded-lg pl-10 pr-3 py-3 text-theme-primary text-base focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-theme-tertiary"
+                    placeholder="1950"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Bitiş</label>
+                <label className="block text-xs text-theme-tertiary mb-1">Bitiş</label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 text-slate-400" />
+                  <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-theme-tertiary" />
                   <input
                     type="number"
                     min="1900"
                     max={new Date().getFullYear()}
                     value={filters.maxYear}
                     onChange={(e) => updateFilter('maxYear', parseInt(e.target.value))}
-                    className="w-full bg-slate-700 border border-slate-600 rounded-lg pl-8 pr-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full bg-theme-tertiary border border-theme-primary rounded-lg pl-10 pr-3 py-3 text-theme-primary text-base focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-theme-tertiary"
+                    placeholder={new Date().getFullYear().toString()}
                   />
                 </div>
               </div>
@@ -312,14 +314,14 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Rating Range */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-theme-primary mb-2">
               TMDB Puan Aralığı (Yeni Önerilerde)
             </label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Min Puan</label>
+                <label className="block text-xs text-theme-tertiary mb-1">Min Puan</label>
                 <div className="relative">
-                  <Star className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 text-slate-400" />
+                  <Star className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-theme-tertiary" />
                   <input
                     type="number"
                     min="0"
@@ -327,14 +329,15 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                     step="0.1"
                     value={filters.minRating}
                     onChange={(e) => updateFilter('minRating', parseFloat(e.target.value))}
-                    className="w-full bg-slate-700 border border-slate-600 rounded-lg pl-8 pr-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full bg-theme-tertiary border border-theme-primary rounded-lg pl-10 pr-3 py-3 text-theme-primary text-base focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-theme-tertiary"
+                    placeholder="0.0"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Max Puan</label>
+                <label className="block text-xs text-theme-tertiary mb-1">Max Puan</label>
                 <div className="relative">
-                  <Star className="absolute left-3 top-1/2 transform -translate-y-1/2 h-3 w-3 text-slate-400" />
+                  <Star className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-theme-tertiary" />
                   <input
                     type="number"
                     min="0"
@@ -342,7 +345,8 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                     step="0.1"
                     value={filters.maxRating}
                     onChange={(e) => updateFilter('maxRating', parseFloat(e.target.value))}
-                    className="w-full bg-slate-700 border border-slate-600 rounded-lg pl-8 pr-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full bg-theme-tertiary border border-theme-primary rounded-lg pl-10 pr-3 py-3 text-theme-primary text-base focus:outline-none focus:ring-2 focus:ring-amber-500 placeholder-theme-tertiary"
+                    placeholder="10.0"
                   />
                 </div>
               </div>
@@ -351,7 +355,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Language Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-theme-primary mb-2">
               İçerik Dili (Yeni Önerilerde) ({(filters.languages || []).length} seçili)
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-48 overflow-y-auto">
@@ -368,7 +372,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                   className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm transition-colors ${
                     (filters.languages || []).includes(language.code)
                       ? 'bg-amber-500 text-white'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      : 'bg-theme-tertiary text-theme-secondary hover:bg-theme-secondary'
                   }`}
                 >
                   <span className="text-base">{language.flag}</span>
@@ -378,7 +382,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
               {/* Diğer... butonu */}
               <button
                 onClick={() => setShowOtherLanguages(true)}
-                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm bg-slate-600 text-slate-300 hover:bg-slate-500"
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm bg-theme-secondary text-theme-secondary hover:bg-theme-tertiary"
               >
                 <span className="text-base">➕</span>
                 <span>Diğer...</span>
@@ -388,7 +392,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
             {showOtherLanguages && (
               <div className="mt-2">
                 <select
-                  className="w-full bg-slate-700 border border-slate-500 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full bg-theme-tertiary border border-theme-primary rounded-lg px-3 py-2 text-theme-primary focus:outline-none focus:ring-2 focus:ring-amber-500"
                   onChange={e => {
                     const code = e.target.value;
                     if (code) {
@@ -408,7 +412,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                   ))}
                 </select>
                 <button
-                  className="mt-2 text-xs text-slate-400 hover:text-theme-primary"
+                  className="mt-2 text-xs text-theme-tertiary hover:text-theme-primary"
                   onClick={() => setShowOtherLanguages(false)}
                 >Kapat</button>
               </div>
@@ -417,13 +421,13 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Genres - GELİŞTİRİLDİ */}
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-2">
+            <label className="block text-sm font-medium text-theme-primary mb-2">
               Türler (Yeni Önerilerde) ({filters.genres.length} seçili)
             </label>
             
             {/* Popüler türler için hızlı seçim */}
             <div className="mb-3">
-              <p className="text-xs text-slate-400 mb-2">Popüler Türler:</p>
+              <p className="text-xs text-theme-tertiary mb-2">Popüler Türler:</p>
               <div className="flex flex-wrap gap-2">
                 {[
                   { id: 28, name: 'Aksiyon' },
@@ -441,7 +445,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                     className={`px-3 py-1 rounded-lg text-xs transition-colors ${
                       filters.genres.includes(genre.id)
                         ? 'bg-amber-500 text-white'
-                        : 'bg-slate-600 text-slate-300 hover:bg-slate-500'
+                        : 'bg-theme-secondary text-theme-secondary hover:bg-theme-tertiary'
                     }`}
                   >
                     {genre.name}
@@ -452,7 +456,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
             {/* Diğer türler (popüler türler hariç) */}
             <div className="mb-2">
-              <p className="text-xs text-slate-400 mb-2">Diğer Türler:</p>
+              <p className="text-xs text-theme-tertiary mb-2">Diğer Türler:</p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-48 overflow-y-auto">
               {sortedGenres.filter(genre => ![28, 35, 18, 878, 10765, 27, 10749, 53].includes(genre.id)).map((genre) => (
@@ -462,7 +466,7 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
                   className={`px-3 py-2 rounded-lg text-sm transition-colors text-left ${
                     filters.genres.includes(genre.id)
                       ? 'bg-amber-500 text-white'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      : 'bg-theme-tertiary text-theme-secondary hover:bg-theme-secondary'
                   }`}
                 >
                   {genre.name}
@@ -472,9 +476,9 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
           </div>
 
           {/* Filtreleme İpuçları */}
-          <div className="bg-slate-700 rounded-lg p-3">
-            <p className="text-xs text-slate-300 mb-2 font-medium">💡 Filtreleme İpuçları:</p>
-            <ul className="text-xs text-slate-400 space-y-1">
+          <div className="bg-theme-secondary rounded-lg p-3">
+            <p className="text-xs text-theme-primary mb-2 font-medium">💡 Filtreleme İpuçları:</p>
+            <ul className="text-xs text-theme-tertiary space-y-1">
               <li>• Eşleşme oranı: Profilinle ne kadar uyumlu olduğunu gösterir</li>
               <li>• Birden fazla tür seçerek daha spesifik sonuçlar alabilirsin</li>
               <li>• "Bilim Kurgu & Fantazi" türü diziler için özel olarak tasarlandı</li>
@@ -485,12 +489,12 @@ export const RecommendationFilters: React.FC<RecommendationFiltersProps> = React
 
           {/* Filter Summary */}
           <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-lg p-3">
-            <div className="text-sm text-slate-300">
+            <div className="text-sm text-theme-primary">
               <strong>{filteredCount}</strong> öneri gösteriliyor 
               (toplam <strong>{totalRecommendations}</strong> öneriden)
             </div>
             {activeFiltersCount > 0 && (
-              <div className="text-xs text-slate-400 mt-1">
+              <div className="text-xs text-theme-tertiary mt-1">
                 {activeFiltersCount} filtre aktif
               </div>
             )}
