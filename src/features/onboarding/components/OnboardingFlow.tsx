@@ -31,6 +31,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
   const [ratedContentCount, setRatedContentCount] = useState(0);
   const [processedContentIds, setProcessedContentIds] = useState<Set<number>>(new Set());
   const [skippedContentIds, setSkippedContentIds] = useState<Set<number>>(new Set());
+  const [isCompleted, setIsCompleted] = useState(false);
 
   // Onboarding durumunu localStorage'dan yükle
   useEffect(() => {
@@ -116,61 +117,68 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
     if (typeof rating === 'number' && rating >= 1 && rating <= 10) {
       const newRatingCount = ratingCount + 1;
       setRatingCount(newRatingCount);
-      if (newRatingCount >= 10) {
-        localStorage.setItem('onboardingCompleted', 'true');
-        localStorage.removeItem('onboardingState');
-        // Mark that user needs to complete initial settings
-        localStorage.setItem('needsInitialSetup', 'true');
-        // Save default settings to localStorage if not already saved
-        const existingSettings = localStorage.getItem('cinematch_settings');
-        if (!existingSettings) {
-          const defaultSettings = {
-            theme: 'dark',
-            compactMode: false,
-            animationsEnabled: true,
-            recommendationCount: 25,
-            discoveryContentCount: 20,
-            showAdultContent: false,
-            minContentRating: 6.0,
-            minTmdbScore: 6.0,
-            minTmdbVoteCount: 100,
-            showKidsContent: false,
-            showAnimationContent: true,
-            showAnimeContent: true,
-            recommendationAlgorithm: {
-              profileWeight: 70,
-              surpriseWeight: 15,
-              diversityWeight: 10,
-              qualityWeight: 80,
-              recencyWeight: 20
-            },
-            defaultFilters: {
-              minYear: 1950,
-              maxYear: new Date().getFullYear(),
-              minRating: 0,
-              maxRating: 10,
-              minMatchScore: 0
-            },
-            cacheEnabled: true,
-            preloadImages: true,
-            autoRefreshRecommendations: false,
-            refreshInterval: 30,
-            analyticsEnabled: true,
-            crashReportingEnabled: true,
-            experimentalFeatures: {
-              advancedFiltering: true,
-              aiInsights: true,
-              personalizedHomepage: false,
-              smartNotifications: false
-            }
-          };
-          localStorage.setItem('cinematch_settings', JSON.stringify(defaultSettings));
+              if (newRatingCount >= 10) {
+          localStorage.setItem('onboardingCompleted', 'true');
+          localStorage.removeItem('onboardingState');
+          // Mark that user needs to complete initial settings
+          localStorage.setItem('needsInitialSetup', 'true');
+          // Save default settings to localStorage if not already saved
+          const existingSettings = localStorage.getItem('cinematch_settings');
+          if (!existingSettings) {
+            const defaultSettings = {
+              theme: 'dark',
+              compactMode: false,
+              animationsEnabled: true,
+              recommendationCount: 25,
+              discoveryContentCount: 20,
+              showAdultContent: false,
+              minContentRating: 6.0,
+              minTmdbScore: 6.0,
+              minTmdbVoteCount: 100,
+              showKidsContent: false,
+              showAnimationContent: true,
+              showAnimeContent: true,
+              recommendationAlgorithm: {
+                profileWeight: 70,
+                surpriseWeight: 15,
+                diversityWeight: 10,
+                qualityWeight: 80,
+                recencyWeight: 20
+              },
+              defaultFilters: {
+                minYear: 1950,
+                maxYear: new Date().getFullYear(),
+                minRating: 0,
+                maxRating: 10,
+                minMatchScore: 0
+              },
+              cacheEnabled: true,
+              preloadImages: true,
+              autoRefreshRecommendations: false,
+              refreshInterval: 30,
+              analyticsEnabled: true,
+              crashReportingEnabled: true,
+              experimentalFeatures: {
+                advancedFiltering: true,
+                aiInsights: true,
+                personalizedHomepage: false,
+                smartNotifications: false
+              }
+            };
+            localStorage.setItem('cinematch_settings', JSON.stringify(defaultSettings));
+          }
+          
+          // Show completion message
+          setIsCompleted(true);
+          setOnboardingMovies([]);
+          setCurrentIndex(0);
+          setLoading(false);
+          
+          setTimeout(() => {
+            onComplete(true); // true indicates redirect to settings
+          }, 3000);
+          shouldAdvance = false;
         }
-        setTimeout(() => {
-          onComplete(true); // true indicates redirect to settings
-        }, 1000);
-        shouldAdvance = false;
-      }
     }
     // Her durumda sonraki içeriğe geç
     if (shouldAdvance) {
@@ -345,7 +353,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
 
 
         {/* Tamamlama Mesajı */}
-        {ratingCount >= 10 && (
+        {isCompleted && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 max-w-sm mx-4 border border-green-500/30">
               <div className="text-center">
@@ -356,10 +364,10 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
                   Tebrikler!
                 </h3>
                 <p className="text-slate-300 mb-4 text-sm">
-                  10 içeriği başarıyla puanladın. AI öğrenme sürecin başladı!
+                  10 içeriği başarıyla puanladın. Şimdi ayarlarını yapılandıralım!
                 </p>
                 <div className="text-xs text-slate-400">
-                  Ana ekrana yönlendiriliyorsun...
+                  Ayarlar sayfasına yönlendiriliyorsun...
                 </div>
               </div>
             </div>
