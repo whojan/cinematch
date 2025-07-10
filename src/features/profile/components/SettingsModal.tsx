@@ -204,13 +204,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       }
     }
   };
-      onSettingsChange(localSettings);
-      setHasChanges(false);
-      if (onInitialSetupComplete) {
-        onInitialSetupComplete();
-      }
-    }
-  };
 
   const canProceedToNext = () => {
     if (setupStep === 1) {
