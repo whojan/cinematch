@@ -312,7 +312,7 @@ console.log(tmdbService.getCacheStats());
 
 ## 📄 Lisans
 
-Copyright (c) 2025 mole.qnap
+Copyright (c) 2025 MoleQ
 
 Bu yazılım yalnızca kişisel kullanım içindir. Ticari kullanım, yeniden satış, dağıtım veya bu yazılımın herhangi bir şekilde gelir elde etmek amacıyla kullanılması yasaktır.
 
@@ -327,7 +327,7 @@ Yasaklar:
 - Üçüncü taraflara satış, dağıtım veya lisanslama
 - Ticari hizmetlerde entegre edilmesi
 
-İletişim ve özel izinler için: mole.qnap@gmail.com
+
 
 
 ## 🤝 Katkıda Bulunma
