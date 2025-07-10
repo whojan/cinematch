@@ -148,7 +148,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       id: 'settings',
       label: 'Ayarlar',
       icon: Settings,
-      onClick: () => onTabChange('settings'),
+      onClick: () => {
+        onTabChange('settings');
+        // Mobil ekranlarda sayfa seçildikten sonra sidebar'ı kapat
+        if (isMobile && isOpen) {
+          onToggle();
+        }
+      },
       color: 'from-slate-500 to-gray-500'
     },
     {
@@ -264,7 +270,15 @@ const Sidebar: React.FC<SidebarProps> = ({
           return (
             <button
               key={item.id}
-              onClick={() => !isDisabled && onTabChange(item.id)}
+              onClick={() => {
+                if (!isDisabled) {
+                  onTabChange(item.id);
+                  // Mobil ekranlarda sayfa seçildikten sonra sidebar'ı kapat
+                  if (isMobile && isOpen) {
+                    onToggle();
+                  }
+                }
+              }}
               disabled={isDisabled}
               className={`w-full flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium transition-all duration-150 justify-start text-left
                 ${isActive ? 'bg-slate-800 text-amber-400' : isDisabled ? 'text-slate-500 cursor-not-allowed' : 'text-slate-200 hover:bg-slate-800 hover:text-amber-300'}`}
