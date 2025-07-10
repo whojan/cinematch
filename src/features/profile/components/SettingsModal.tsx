@@ -219,8 +219,8 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   ];
 
   return (
-    <div className="w-full min-h-screen bg-slate-900 flex flex-col">
-      <div className="bg-slate-800 rounded-xl p-6 w-full max-w-3xl mx-auto flex flex-col min-h-[60vh]">
+    <div className="w-full min-h-screen bg-theme-primary flex flex-col">
+      <div className="bg-theme-card rounded-xl p-6 w-full max-w-3xl mx-auto flex flex-col min-h-[60vh]">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div className="flex items-center space-x-3">
@@ -228,10 +228,10 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               <Settings className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white tracking-tight">
+              <h2 className="text-2xl font-bold text-theme-primary tracking-tight">
                 {isInitialSetup ? 'İlk Kurulum' : 'Ayarlar'}
               </h2>
-              <p className="text-slate-300 text-sm mt-1">
+              <p className="text-theme-secondary text-sm mt-1">
                 {isInitialSetup ? 'CineMatch\'i kişiselleştirmek için temel ayarları yapalım' : 'Uygulamayı ihtiyaçlarınıza göre özelleştirin'}
               </p>
             </div>
@@ -240,7 +240,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             {!isInitialSetup && (
               <button
                 onClick={handleReset}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-700/80 text-slate-200 hover:bg-slate-600/80 border border-slate-600/50 transition-all text-sm font-medium"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-theme-tertiary text-theme-primary hover:bg-theme-secondary border border-theme-primary transition-all text-sm font-medium"
               >
                 <RotateCcw className="h-4 w-4" /> Varsayılanlar
               </button>
@@ -287,7 +287,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
         )}
 
         {/* Tabs */}
-        <div className="flex space-x-1 mb-6 bg-slate-700 rounded-lg p-1">
+        <div className="flex space-x-1 mb-6 bg-theme-tertiary rounded-lg p-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -295,7 +295,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex-1 justify-center
                 ${activeTab === tab.id
                   ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-600'}
+                  : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary'}
               `}
             >
               <tab.icon className="h-4 w-4" />
@@ -316,7 +316,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
 
                 {/* Theme Selection */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-3">
+                  <label className="block text-sm font-medium text-theme-primary mb-3">
                     Tema
                   </label>
                   <div className="grid grid-cols-3 gap-3">
@@ -331,11 +331,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                         className={`flex flex-col items-center space-y-2 p-4 rounded-lg border-2 transition-all ${
                           localSettings.theme === theme.value
                             ? 'border-amber-500 bg-amber-500/10'
-                            : 'border-slate-600 hover:border-slate-500'
+                            : 'border-theme-primary hover:border-theme-secondary'
                         }`}
                       >
-                        <theme.icon className="h-6 w-6 text-slate-300" />
-                        <span className="text-sm text-slate-300">{theme.label}</span>
+                        <theme.icon className="h-6 w-6 text-theme-secondary" />
+                        <span className="text-sm text-theme-secondary">{theme.label}</span>
                       </button>
                     ))}
                   </div>
