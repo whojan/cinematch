@@ -186,6 +186,22 @@ export const AuthModal = ({
         onClick={handleClose}
       />
       
+      {/* Welcome Message for New Users */}
+      {mode === 'register' && (
+        <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="bg-gradient-to-r from-blue-500/90 to-purple-500/90 backdrop-blur-sm border border-white/20 rounded-2xl p-6 shadow-2xl max-w-md text-center">
+            <h1 className="text-2xl font-bold text-white mb-2">🎬 CineMatch'e Hoş Geldin!</h1>
+            <p className="text-white/90 text-sm">
+              Kişiselleştirilmiş film ve dizi önerileri için hemen hesap oluştur ve zevkini keşfetmeye başla!
+            </p>
+            <div className="mt-4 flex items-center justify-center space-x-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-green-400 text-xs font-medium">Yeni kullanıcılar için özel onboarding süreci</span>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Modal Content */}
       <div className="relative w-full max-w-md mx-auto">
         {/* Close Button */}

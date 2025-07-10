@@ -199,7 +199,6 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       setCompletedSteps((prev: Set<number>) => new Set([...prev, 3]));
       // Save settings when completing initial setup
       onSettingsChange(localSettings);
-      setHasChanges(false);
       if (onInitialSetupComplete) {
         onInitialSetupComplete();
       }
