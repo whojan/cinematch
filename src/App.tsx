@@ -307,13 +307,13 @@ function App() {
       <div className="flex-1 flex flex-col">
         {/* Mobile Header */}
         {isMobile && (
-          <div className="lg:hidden bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700/50 p-4">
+          <div className="lg:hidden bg-theme-secondary border-b border-theme-primary p-4">
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={() => setIsMobileSidebarOpen(true)}
-                className="p-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 transition-colors"
+                className="p-2 rounded-lg bg-theme-tertiary hover:bg-theme-secondary transition-colors"
               >
-                <Menu className="h-6 w-6 text-slate-300" />
+                <Menu className="h-6 w-6 text-theme-secondary" />
               </button>
               <div className="flex items-center space-x-3">
                 <div className="bg-gradient-to-r from-brand-primary to-brand-secondary p-2 rounded-lg">
@@ -344,10 +344,10 @@ function App() {
                       alert('Veri dışa aktarma sırasında hata oluştu!');
                     }
                   }}
-                  className="p-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 transition-colors"
+                  className="p-2 rounded-lg bg-theme-tertiary hover:bg-theme-secondary transition-colors"
                   title="Verileri Dışa Aktar"
                 >
-                  <Download className="h-4 w-4 text-slate-300" />
+                  <Download className="h-4 w-4 text-theme-secondary" />
                 </button>
                 <button
                   onClick={() => {
@@ -369,22 +369,22 @@ function App() {
                     };
                     input.click();
                   }}
-                  className="p-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 transition-colors"
+                  className="p-2 rounded-lg bg-theme-tertiary hover:bg-theme-secondary transition-colors"
                   title="Verileri İçe Aktar"
                 >
-                  <Upload className="h-4 w-4 text-slate-300" />
+                  <Upload className="h-4 w-4 text-theme-secondary" />
                 </button>
                 <button
                   onClick={clearDataWithLoading}
                   disabled={clearLoading}
                   className={`p-2 rounded-lg transition-colors ${
                     clearLoading 
-                      ? 'bg-slate-800/30 opacity-60 cursor-not-allowed' 
-                      : 'bg-slate-700/50 hover:bg-red-500/20 hover:text-red-400'
+                      ? 'bg-theme-tertiary opacity-60 cursor-not-allowed' 
+                      : 'bg-theme-tertiary hover:bg-red-500/20 hover:text-red-400'
                   }`}
                   title="Tüm Verileri Temizle"
                 >
-                  <Trash2 className={`h-4 w-4 ${clearLoading ? 'animate-spin' : 'text-slate-300'}`} />
+                  <Trash2 className={`h-4 w-4 ${clearLoading ? 'animate-spin' : 'text-theme-secondary'}`} />
                 </button>
               </div>
             </div>
@@ -401,7 +401,7 @@ function App() {
                     searchMovies(searchQuery, (results) => setSearchResults(results));
                   }
                 }}
-                className="w-full bg-slate-700/50 border border-slate-600/50 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50"
+                className="w-full bg-theme-tertiary border border-theme-primary rounded-lg px-4 py-2 text-theme-primary placeholder-theme-tertiary focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50"
               />
               <button
                 onClick={() => searchMovies(searchQuery, (results) => setSearchResults(results))}
@@ -444,17 +444,17 @@ function App() {
                       <h2 className="text-2xl font-bold text-white">{phaseInfo.title}</h2>
                       <div className="flex items-center space-x-2 mt-1">
                         <Sparkles className="h-4 w-4 text-amber-400" />
-                        <span className="text-slate-300 text-sm">AI Destekli Öğrenme Sistemi</span>
+                        <span className="text-theme-secondary text-sm">AI Destekli Öğrenme Sistemi</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 
-                <p className="text-slate-200 mb-6 leading-relaxed text-lg">
+                <p className="text-theme-primary mb-6 leading-relaxed text-lg">
                   {phaseInfo.description}
                 </p>
                 
-                <div className="w-full bg-slate-700/50 rounded-full h-4 mb-3 border border-slate-600/50">
+                <div className="w-full bg-theme-tertiary rounded-full h-4 mb-3 border border-theme-secondary">
                   <div 
                     className={`bg-gradient-to-r ${
                       learningPhase === 'initial' ? 'from-blue-500 to-purple-500' :
@@ -468,12 +468,12 @@ function App() {
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-slate-300 text-sm font-medium">
-                    {phaseInfo.progressText}
-                    {profile?.accuracyScore && learningPhase === 'testing' && 
-                      ` • Doğruluk: %${profile.accuracyScore.toFixed(1)}`
-                    }
-                  </p>
+                            <p className="text-theme-secondary text-sm font-medium">
+            {phaseInfo.progressText}
+            {profile?.accuracyScore && learningPhase === 'testing' && 
+              ` • Doğruluk: %${profile.accuracyScore.toFixed(1)}`
+            }
+          </p>
                   <div className="flex items-center space-x-2">
                     <Zap className="h-4 w-4 text-amber-400" />
                     <span className="text-amber-400 font-bold text-sm">
@@ -482,7 +482,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-slate-200 mt-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-theme-primary mt-6">
                   {learningPhase === 'initial' && (
                     <>
                       <div className="flex items-center space-x-2 bg-blue-500/10 px-3 py-2 rounded-lg border border-blue-500/30">
@@ -544,10 +544,10 @@ function App() {
                   <div>
                     {/* Arama Arayüzü */}
                     <div className="mb-8">
-                      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 border border-slate-700/50">
+                      <div className="bg-theme-card rounded-2xl p-6 border border-theme-primary">
                         <div className="flex items-center space-x-4 mb-4">
                           <Search className="h-6 w-6 text-blue-400" />
-                          <h3 className="text-xl font-semibold text-white">İçerik Arama</h3>
+                          <h3 className="text-xl font-semibold text-theme-primary">İçerik Arama</h3>
                         </div>
                         
                         <div className="flex flex-col sm:flex-row gap-4">
@@ -557,7 +557,7 @@ function App() {
                               placeholder="Film, dizi, oyuncu veya yönetmen ara..."
                               value={searchQuery}
                               onChange={(e) => setSearchQuery(e.target.value)}
-                              className="w-full bg-slate-700/50 border border-slate-600/50 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200"
+                              className="w-full bg-theme-tertiary border border-theme-primary rounded-lg px-4 py-3 text-theme-primary placeholder-theme-tertiary focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200"
                             />
                           </div>
                           <button
@@ -605,12 +605,12 @@ function App() {
                           <LoadingSpinner progress={curatedContentLoading ? curatedContentLoadingProgress : { current: 0, total: 0, message: '' }} />
                         ) : filteredDiscoveryMovies.length === 0 ? (
                           <div className="text-center py-16">
-                            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-12 max-w-md mx-auto border border-slate-700/50">
-                              <Star className="h-16 w-16 text-slate-500 mx-auto mb-6" />
-                              <h3 className="text-2xl font-semibold text-white mb-4">
+                            <div className="bg-theme-card rounded-2xl p-12 max-w-md mx-auto border border-theme-primary">
+                              <Star className="h-16 w-16 text-theme-tertiary mx-auto mb-6" />
+                              <h3 className="text-2xl font-semibold text-theme-primary mb-4">
                                 Arama Sonucu Bulunamadı
                               </h3>
-                              <p className="text-slate-400 leading-relaxed">
+                              <p className="text-theme-secondary leading-relaxed">
                                 Farklı bir arama terimi deneyin
                               </p>
                             </div>
@@ -648,12 +648,12 @@ function App() {
                     {/* Arama Yapılmadığında Boş Durum */}
                     {!searchQuery && (
                       <div className="text-center py-16">
-                        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-12 max-w-md mx-auto border border-slate-700/50">
-                          <Search className="h-16 w-16 text-slate-500 mx-auto mb-6" />
-                          <h3 className="text-2xl font-semibold text-white mb-4">
+                        <div className="bg-theme-card rounded-2xl p-12 max-w-md mx-auto border border-theme-primary">
+                          <Search className="h-16 w-16 text-theme-tertiary mx-auto mb-6" />
+                          <h3 className="text-2xl font-semibold text-theme-primary mb-4">
                             Arama Yapın
                           </h3>
-                          <p className="text-slate-400 leading-relaxed">
+                          <p className="text-theme-secondary leading-relaxed">
                             Film, dizi, oyuncu veya yönetmen aramak için yukarıdaki arama kutusunu kullanın
                           </p>
                         </div>
@@ -734,7 +734,7 @@ function App() {
                             <Brain className="h-6 w-6 text-purple-400" />
                             <h3 className="text-xl font-semibold text-white">AI Öğrenme Süreci</h3>
                           </div>
-                          <p className="text-slate-300 text-sm mb-4">
+                          <p className="text-theme-secondary text-sm mb-4">
                             AI önerileri alabilmek için önce 10 farklı içerik puanlaman gerekiyor. 
                             Aşağıdaki içerikleri puanlayarak AI öğrenme sürecini başlatın.
                           </p>
@@ -743,7 +743,7 @@ function App() {
                               <span className="text-purple-300 text-sm font-medium">İlerleme</span>
                               <span className="text-purple-200 text-sm">{validRatingCount}/10</span>
                             </div>
-                            <div className="w-full bg-slate-700 rounded-full h-2">
+                            <div className="w-full bg-theme-tertiary rounded-full h-2">
                               <div 
                                 className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300"
                                 style={{ width: `${(validRatingCount / 10) * 100}%` }}
@@ -757,12 +757,12 @@ function App() {
                           <LoadingSpinner progress={curatedContentLoading ? curatedContentLoadingProgress : { current: 0, total: 0, message: '' }} />
                         ) : filteredDiscoveryMovies.length === 0 ? (
                           <div className="text-center py-16">
-                            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-12 max-w-md mx-auto border border-slate-700/50">
-                              <Brain className="h-16 w-16 text-slate-500 mx-auto mb-6" />
-                              <h3 className="text-2xl font-semibold text-white mb-4">
+                            <div className="bg-theme-card rounded-2xl p-12 max-w-md mx-auto border border-theme-primary">
+                              <Brain className="h-16 w-16 text-theme-tertiary mx-auto mb-6" />
+                              <h3 className="text-2xl font-semibold text-theme-primary mb-4">
                                 AI Öğrenme İçerikleri Yükleniyor
                               </h3>
-                              <p className="text-slate-400 leading-relaxed">
+                              <p className="text-theme-secondary leading-relaxed">
                                 AI öğrenme sürecinizi başlatmak için içerikler hazırlanıyor...
                               </p>
                             </div>
@@ -799,14 +799,14 @@ function App() {
                       <LoadingSpinner progress={recommendationsLoading ? recommendationsLoadingProgress : { current: 0, total: 0, message: '' }} />
                     ) : totalRecommendations === 0 ? (
                       <div className="text-center py-16">
-                        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-12 max-w-md mx-auto border border-slate-700/50">
-                          <Sparkles className="h-16 w-16 text-slate-500 mx-auto mb-6" />
-                          <h3 className="text-2xl font-semibold text-white mb-4">
+                        <div className="bg-theme-card rounded-2xl p-12 max-w-md mx-auto border border-theme-primary">
+                          <Sparkles className="h-16 w-16 text-theme-tertiary mx-auto mb-6" />
+                          <h3 className="text-2xl font-semibold text-theme-primary mb-4">
                             {learningPhase === 'initial' ? 'AI Önerileri İçin Hazırlanıyor' :
                              learningPhase === 'profiling' ? 'Profil Geliştiriliyor' :
                              'AI Önerileri Henüz Hazır Değil'}
                           </h3>
-                          <p className="text-slate-400 leading-relaxed mb-6">
+                          <p className="text-theme-secondary leading-relaxed mb-6">
                             {learningPhase === 'initial' 
                               ? 'AI önerileri alabilmek için önce 5 farklı içerik puanlaman gerekiyor. Keşif İçerikleri sekmesinden başlayabilirsin.'
                               : learningPhase === 'profiling'

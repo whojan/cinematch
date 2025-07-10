@@ -216,26 +216,26 @@ const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-slate-900 border-r border-slate-800">
+    <div className="flex flex-col h-full bg-theme-primary border-r border-theme-primary">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-theme-primary">
         <div className="flex items-center space-x-2">
           <Sparkles className="h-5 w-5 text-amber-400" />
-          <h1 className="text-lg font-bold text-white tracking-tight">CineMatch</h1>
+          <h1 className="text-lg font-bold text-theme-primary tracking-tight">CineMatch</h1>
         </div>
         {isMobile && (
           <button
             onClick={onToggle}
-            className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors"
+            className="p-2 rounded-lg bg-theme-secondary hover:bg-theme-tertiary transition-colors"
           >
-            <X className="h-5 w-5 text-slate-300" />
+            <X className="h-5 w-5 text-theme-secondary" />
           </button>
         )}
       </div>
 
       {/* Optimizasyon Modu Bilgisi */}
       {showingCuratedMovies && learningPhase === 'optimizing' && (
-        <div className="p-3 border-b border-slate-700/50">
+        <div className="p-3 border-b border-theme-primary">
           <div className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-xl p-3 border border-amber-500/30">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
@@ -281,7 +281,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               }}
               disabled={isDisabled}
               className={`w-full flex items-center gap-2 px-2 py-2 rounded-lg text-sm font-medium transition-all duration-150 justify-start text-left
-                ${isActive ? 'bg-slate-800 text-amber-400' : isDisabled ? 'text-slate-500 cursor-not-allowed' : 'text-slate-200 hover:bg-slate-800 hover:text-amber-300'}`}
+                ${isActive ? 'bg-theme-secondary text-amber-400' : isDisabled ? 'text-theme-tertiary cursor-not-allowed' : 'text-theme-secondary hover:bg-theme-secondary hover:text-amber-300'}`}
             >
               {Emoji ? (
                 <span className="text-xl leading-none">{Emoji}</span>
@@ -298,7 +298,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex-1" />
 
       {/* Hızlı Erişim (Sticky Bottom) */}
-      <div className="sticky bottom-0 left-0 w-full bg-slate-900 border-t border-slate-800 px-2 py-2 z-10">
+      <div className="sticky bottom-0 left-0 w-full bg-theme-primary border-t border-theme-primary px-2 py-2 z-10">
         <div className="flex flex-col gap-1">
           {quickActions.map((action) => {
             const Icon = action.icon;
@@ -309,12 +309,12 @@ const Sidebar: React.FC<SidebarProps> = ({
                 onClick={action.onClick}
                 disabled={isDisabled}
                 className={`w-full flex items-center gap-2 px-2 py-2 rounded-lg text-xs font-medium transition-all duration-150
-                  ${isDisabled ? 'text-slate-500 cursor-not-allowed' : 'text-slate-300 hover:bg-slate-800 hover:text-amber-300'}`}
+                  ${isDisabled ? 'text-theme-tertiary cursor-not-allowed' : 'text-theme-secondary hover:bg-theme-secondary hover:text-amber-300'}`}
               >
                 <Icon className={`h-4 w-4 ${isDisabled ? 'opacity-50' : ''}`} />
                 <span>{action.label}</span>
                 {action.id === 'clear' && clearLoading && (
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-slate-400 border-t-transparent"></div>
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-theme-secondary border-t-transparent"></div>
                 )}
               </button>
             );
@@ -323,8 +323,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Footer */}
-      <div className="px-2 py-3 border-t border-slate-800 text-center">
-        <p className="text-xs text-slate-500">AI Destekli Öneri Sistemi</p>
+      <div className="px-2 py-3 border-t border-theme-primary text-center">
+        <p className="text-xs text-theme-tertiary">AI Destekli Öneri Sistemi</p>
       </div>
     </div>
   );
@@ -342,8 +342,8 @@ const Sidebar: React.FC<SidebarProps> = ({
         
         {/* Mobile Sidebar */}
         <div className={`
-          fixed top-0 left-0 h-full w-52 bg-gradient-to-b from-slate-900 to-slate-800 
-          border-r border-slate-700/50 z-50 transform transition-transform duration-300 ease-in-out
+          fixed top-0 left-0 h-full w-52 bg-theme-primary
+          border-r border-theme-primary z-50 transform transition-transform duration-300 ease-in-out
           lg:hidden
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
@@ -355,7 +355,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   // Desktop Sidebar
   return (
-    <div className="hidden lg:block w-52 bg-gradient-to-b from-slate-900 to-slate-800 border-r border-slate-700/50">
+    <div className="hidden lg:block w-52 bg-theme-primary border-r border-theme-primary">
       {sidebarContent}
     </div>
   );
