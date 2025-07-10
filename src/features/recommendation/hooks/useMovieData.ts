@@ -291,6 +291,22 @@ export const useMovieData = (settings?: AppSettings) => {
         );
       }
 
+      // Apply TMDB score filter
+      if (settings?.minTmdbScore && typeof settings.minTmdbScore === 'number') {
+        unratedResults = unratedResults.filter(item => 
+          item && typeof item.vote_average === 'number' &&
+          item.vote_average >= settings.minTmdbScore
+        );
+      }
+
+      // Apply TMDB vote count filter
+      if (settings?.minTmdbVoteCount && typeof settings.minTmdbVoteCount === 'number') {
+        unratedResults = unratedResults.filter(item => 
+          item && typeof item.vote_count === 'number' &&
+          item.vote_count >= settings.minTmdbVoteCount
+        );
+      }
+
       if (settings && !settings.showAdultContent) {
         unratedResults = unratedResults.filter(item => !('adult' in item && !!item.adult));
       }
@@ -331,6 +347,22 @@ export const useMovieData = (settings?: AppSettings) => {
           unratedResults = unratedResults.filter(item => 
             item && typeof item.vote_average === 'number' &&
             item.vote_average >= settings.minContentRating
+          );
+        }
+
+        // Apply TMDB score filter
+        if (settings?.minTmdbScore && typeof settings.minTmdbScore === 'number') {
+          unratedResults = unratedResults.filter(item => 
+            item && typeof item.vote_average === 'number' &&
+            item.vote_average >= settings.minTmdbScore
+          );
+        }
+
+        // Apply TMDB vote count filter
+        if (settings?.minTmdbVoteCount && typeof settings.minTmdbVoteCount === 'number') {
+          unratedResults = unratedResults.filter(item => 
+            item && typeof item.vote_count === 'number' &&
+            item.vote_count >= settings.minTmdbVoteCount
           );
         }
 

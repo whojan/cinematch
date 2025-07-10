@@ -61,6 +61,8 @@ interface RecommendationOptions {
   diversityFactor?: number;
   genres?: string[];
   yearRange?: { min: number; max: number };
+  minTmdbScore?: number;
+  minTmdbVoteCount?: number;
 }
 
 class HybridRecommendationEngine {
@@ -91,7 +93,9 @@ class HybridRecommendationEngine {
         includeExplanations = false,
         diversityFactor = 0.3,
         genres,
-        yearRange
+        yearRange,
+        minTmdbScore = 0,
+        minTmdbVoteCount = 0
       } = options;
 
       // Check cache first
@@ -110,7 +114,9 @@ class HybridRecommendationEngine {
         excludeRated,
         excludeWatchlist,
         genres,
-        yearRange
+        yearRange,
+        minTmdbScore,
+        minTmdbVoteCount
       });
       
       if (availableMovies.length === 0) {
@@ -534,9 +540,31 @@ class HybridRecommendationEngine {
       excludeWatchlist?: boolean;
       genres?: string[];
       yearRange?: { min: number; max: number };
+      minTmdbScore?: number;
+      minTmdbVoteCount?: number;
     }
   ): Promise<Movie[]> {
-    // Placeholder implementation
+    // Filter movies based on TMDB criteria
+    // This would typically query your database with the specified filters
+    const {
+      excludeRated = true,
+      excludeWatchlist = true,
+      genres,
+      yearRange,
+      minTmdbScore = 0,
+      minTmdbVoteCount = 0
+    } = options;
+
+    // Placeholder implementation - in a real application, this would:
+    // 1. Query the database for movies
+    // 2. Apply filters for TMDB score >= minTmdbScore
+    // 3. Apply filters for vote count >= minTmdbVoteCount
+    // 4. Apply other filters (rated, watchlist, genres, year range)
+    
+    // For now, return an empty array since this is a placeholder
+    // In production, you would implement the actual database query here
+    console.log(`Filtering movies with minTmdbScore: ${minTmdbScore}, minTmdbVoteCount: ${minTmdbVoteCount}`);
+    
     return [];
   }
 

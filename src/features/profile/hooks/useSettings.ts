@@ -11,6 +11,8 @@ const defaultSettings: AppSettings = {
   discoveryContentCount: 40, // Increased from 20
   showAdultContent: false,
   minContentRating: 6.0,
+  minTmdbScore: 6.0,
+  minTmdbVoteCount: 100,
   showKidsContent: false,
   showAnimationContent: true,
   showAnimeContent: true,

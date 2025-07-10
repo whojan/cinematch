@@ -26,6 +26,8 @@ export interface AppSettings {
   discoveryContentCount: number;
   showAdultContent: boolean;
   minContentRating: number;
+  minTmdbScore: number;
+  minTmdbVoteCount: number;
   showKidsContent: boolean;
   showAnimationContent: boolean;
   showAnimeContent: boolean;
@@ -80,6 +82,8 @@ const defaultSettings: AppSettings = {
   discoveryContentCount: 20,
   showAdultContent: false,
   minContentRating: 6.0,
+  minTmdbScore: 6.0,
+  minTmdbVoteCount: 100,
   showKidsContent: false,
   showAnimationContent: true,
   showAnimeContent: true,
@@ -361,6 +365,46 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                     <div className="flex justify-between text-xs text-slate-400 mt-1">
                       <span>0.0</span>
                       <span>10.0</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-slate-300 mb-2">
+                      Minimum TMDB Puanı: {localSettings.minTmdbScore.toFixed(1)}
+                    </label>
+                    <p className="text-xs text-slate-400 mb-2">TMDB üzerindeki minimum film/dizi puanı</p>
+                    <input
+                      type="range"
+                      min="0"
+                      max="10"
+                      step="0.1"
+                      value={localSettings.minTmdbScore}
+                      onChange={(e) => updateSetting('minTmdbScore', parseFloat(e.target.value))}
+                      className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-xs text-slate-400 mt-1">
+                      <span>0.0</span>
+                      <span>10.0</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-slate-300 mb-2">
+                      Minimum Oy Sayısı: {localSettings.minTmdbVoteCount}
+                    </label>
+                    <p className="text-xs text-slate-400 mb-2">TMDB'de minimum kaç kişi puanlamış olması gerekir</p>
+                    <input
+                      type="range"
+                      min="10"
+                      max="5000"
+                      step="50"
+                      value={localSettings.minTmdbVoteCount}
+                      onChange={(e) => updateSetting('minTmdbVoteCount', parseInt(e.target.value))}
+                      className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer slider"
+                    />
+                    <div className="flex justify-between text-xs text-slate-400 mt-1">
+                      <span>10</span>
+                      <span>5000</span>
                     </div>
                   </div>
 
