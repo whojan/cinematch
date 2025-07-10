@@ -121,6 +121,51 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({
         localStorage.removeItem('onboardingState');
         // Mark that user needs to complete initial settings
         localStorage.setItem('needsInitialSetup', 'true');
+        // Save default settings to localStorage if not already saved
+        const existingSettings = localStorage.getItem('cinematch_settings');
+        if (!existingSettings) {
+          const defaultSettings = {
+            theme: 'dark',
+            compactMode: false,
+            animationsEnabled: true,
+            recommendationCount: 25,
+            discoveryContentCount: 20,
+            showAdultContent: false,
+            minContentRating: 6.0,
+            minTmdbScore: 6.0,
+            minTmdbVoteCount: 100,
+            showKidsContent: false,
+            showAnimationContent: true,
+            showAnimeContent: true,
+            recommendationAlgorithm: {
+              profileWeight: 70,
+              surpriseWeight: 15,
+              diversityWeight: 10,
+              qualityWeight: 80,
+              recencyWeight: 20
+            },
+            defaultFilters: {
+              minYear: 1950,
+              maxYear: new Date().getFullYear(),
+              minRating: 0,
+              maxRating: 10,
+              minMatchScore: 0
+            },
+            cacheEnabled: true,
+            preloadImages: true,
+            autoRefreshRecommendations: false,
+            refreshInterval: 30,
+            analyticsEnabled: true,
+            crashReportingEnabled: true,
+            experimentalFeatures: {
+              advancedFiltering: true,
+              aiInsights: true,
+              personalizedHomepage: false,
+              smartNotifications: false
+            }
+          };
+          localStorage.setItem('cinematch_settings', JSON.stringify(defaultSettings));
+        }
         setTimeout(() => {
           onComplete(true); // true indicates redirect to settings
         }, 1000);

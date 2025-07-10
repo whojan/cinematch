@@ -8,14 +8,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        // CineMatch Brand Colors from Revision Plan
+        // CineMatch Brand Colors from Revision Plan - now theme-aware
         brand: {
-          primary: '#FF4C29',
-          secondary: '#FFD369',
-          dark: '#121212',
-          cardBg: '#1F1F1F',
-          textLight: '#FFFFFF',
-          textSubtle: '#B0B0B0',
+          primary: 'var(--brand-primary)',
+          secondary: 'var(--brand-secondary)',
+          dark: 'var(--brand-dark)',
+          cardBg: 'var(--brand-card-bg)',
+          textLight: 'var(--brand-text-light)',
+          textSubtle: 'var(--brand-text-subtle)',
         },
         slate: {
           750: '#334155',

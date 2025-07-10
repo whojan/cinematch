@@ -138,6 +138,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
     const newSettings = { ...localSettings, [key]: value };
     setLocalSettings(newSettings);
     setHasChanges(true);
+    
+    // Auto-save during initial setup for immediate effect
+    if (isInitialSetup) {
+      onSettingsChange(newSettings);
+    }
   };
 
   const updateNestedSetting = <T extends keyof AppSettings>(
@@ -154,6 +159,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
     };
     setLocalSettings(newSettings);
     setHasChanges(true);
+    
+    // Auto-save during initial setup for immediate effect
+    if (isInitialSetup) {
+      onSettingsChange(newSettings);
+    }
   };
 
   const handleSave = () => {
@@ -177,6 +187,9 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       setSetupStep(3);
     } else if (setupStep === 3) {
       setCompletedSteps((prev: Set<number>) => new Set([...prev, 3]));
+      // Save settings when completing initial setup
+      onSettingsChange(localSettings);
+      setHasChanges(false);
       if (onInitialSetupComplete) {
         onInitialSetupComplete();
       }

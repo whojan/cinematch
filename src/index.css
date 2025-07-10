@@ -19,6 +19,14 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
   --slider-track: #cbd5e1;
   --slider-thumb: linear-gradient(135deg, #f59e0b, #f97316);
+  
+  /* Brand colors for light theme */
+  --brand-primary: #FF4C29;
+  --brand-secondary: #FFD369;
+  --brand-dark: #f8fafc;
+  --brand-card-bg: #ffffff;
+  --brand-text-light: #0f172a;
+  --brand-text-subtle: #475569;
 }
 
 /* Dark theme colors */
@@ -37,6 +45,14 @@
   --shadow-color: rgba(0, 0, 0, 0.3);
   --slider-track: #475569;
   --slider-thumb: linear-gradient(135deg, #f59e0b, #f97316);
+  
+  /* Brand colors for dark theme */
+  --brand-primary: #FF4C29;
+  --brand-secondary: #FFD369;
+  --brand-dark: #121212;
+  --brand-card-bg: #1F1F1F;
+  --brand-text-light: #FFFFFF;
+  --brand-text-subtle: #B0B0B0;
 }
 
 /* Theme-aware utility classes */
@@ -75,6 +91,36 @@
   
   .border-theme-secondary {
     border-color: var(--border-secondary);
+  }
+  
+  /* Brand color utilities that respect theme */
+  .bg-brand-dark {
+    background-color: var(--brand-dark);
+  }
+  
+  .bg-brand-cardBg {
+    background-color: var(--brand-card-bg);
+  }
+  
+  .text-brand-textLight {
+    color: var(--brand-text-light);
+  }
+  
+  .text-brand-textSubtle {
+    color: var(--brand-text-subtle);
+  }
+  
+  .bg-brand-primary {
+    background-color: var(--brand-primary);
+  }
+  
+  .bg-brand-secondary {
+    background-color: var(--brand-secondary);
+  }
+  
+  /* For Tailwind's brand.cardBg utility compatibility */
+  .bg-brand-cardBg {
+    background-color: var(--brand-card-bg);
   }
 }
 
