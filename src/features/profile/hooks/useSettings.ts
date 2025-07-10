@@ -96,10 +96,14 @@ export const useSettings = () => {
   // Apply animation preferences
   useEffect(() => {
     const root = document.documentElement;
+    const body = document.body;
+    
     if (settings.animationsEnabled) {
       root.style.removeProperty('--animation-duration');
+      body.classList.remove('no-animations');
     } else {
       root.style.setProperty('--animation-duration', '0s');
+      body.classList.add('no-animations');
     }
   }, [settings.animationsEnabled]);
 

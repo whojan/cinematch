@@ -231,12 +231,12 @@ export const BfiTopFilms: React.FC = () => {
           )}
         </div>
         {/* Puanlananları gizle toggle */}
-        <label className="flex items-center gap-2 text-white font-medium">
+        <label className="flex items-center gap-2 text-theme-primary font-medium">
           <input type="checkbox" checked={hideRated} onChange={e => setHideRated(e.target.checked)} />
           <span>{ratedCount} Adet</span> Puanlananları Gizle
         </label>
         {/* Watchlisttekileri gizle toggle */}
-        <label className="flex items-center gap-2 text-white font-medium">
+        <label className="flex items-center gap-2 text-theme-primary font-medium">
           <input type="checkbox" checked={hideWatchlisted} onChange={e => setHideWatchlisted(e.target.checked)} />
           <span>{watchlistedCount} Adet</span> Listeye Eklenenleri Gizle
         </label>

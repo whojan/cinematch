@@ -210,22 +210,14 @@ export const BfiDirectorsTopFilms: React.FC = () => {
         )}
       </div>
       <div className="mb-6 flex flex-wrap gap-4 items-center">
-        <label className="flex items-center gap-2 text-slate-300 text-sm cursor-pointer">
-          <input
-            type="checkbox"
-            checked={hideRated}
-            onChange={() => setHideRated(v => !v)}
-            className="accent-amber-500"
-          />
+        {/* Puanlananları gizle toggle */}
+        <label className="flex items-center gap-2 text-theme-primary font-medium">
+          <input type="checkbox" checked={hideRated} onChange={e => setHideRated(e.target.checked)} />
           <span>{ratedCount} Adet Puanlananları Gizle</span>
         </label>
-        <label className="flex items-center gap-2 text-slate-300 text-sm cursor-pointer">
-          <input
-            type="checkbox"
-            checked={hideWatchlisted}
-            onChange={() => setHideWatchlisted(v => !v)}
-            className="accent-indigo-500"
-          />
+        {/* Watchlisttekileri gizle toggle */}
+        <label className="flex items-center gap-2 text-theme-primary font-medium">
+          <input type="checkbox" checked={hideWatchlisted} onChange={e => setHideWatchlisted(e.target.checked)} />
           <span>{watchlistedCount} Adet Listeye Eklenenleri Gizle</span>
         </label>
       </div>

@@ -178,15 +178,72 @@
   box-shadow: 0 4px 8px var(--shadow-color);
 }
 
-/* Animation preferences */
+/* Animation preferences and theme-aware animations */
 .compact-mode {
   --spacing-scale: 0.8;
 }
 
+/* Theme-aware animations */
+.dark .animate-spin {
+  filter: brightness(0.9);
+}
+
+.dark .animate-pulse {
+  opacity: 0.8;
+}
+
+/* Respect both user settings and system preferences */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* When animations are disabled in app settings */
+.no-animations * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Enhanced theme transitions */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Improved mobile responsiveness */
+@media (max-width: 640px) {
+  .mobile-responsive {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .mobile-input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    min-height: 44px; /* iOS touch target minimum */
+  }
+}
+
+/* Better focus states for accessibility */
+.focus-ring:focus {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  :root {
+    --border-primary: #000000;
+    --border-secondary: #333333;
+  }
+  
+  .dark {
+    --border-primary: #ffffff;
+    --border-secondary: #cccccc;
   }
 }
