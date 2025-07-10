@@ -534,3 +534,177 @@ await Analytics.track('recommendation_click', {
 * Minimum 500 kullanıcı/test grubu
 * %95 güven aralığı ile etki farkı ölçümü
 * CTR artışı %5 veya üzeri ise “B” grubunu yayına alma
+
+# CineMatch AI - Detaylı Geliştirme Planı
+
+## 1. Öneri Motoru İyileştirmesi
+
+### 🎯 Hedef
+
+Hibrit öneri modelini geliştirerek doğruluğu %25 artırmak
+
+### 💻 Teknolojiler
+
+* **Backend**: Node.js + Express + TensorFlow\.js
+* **Database**: MongoDB (kullanıcı davranışları) + Redis (cache)
+* **ML Libraries**: TensorFlow\.js, scikit-learn (Python bridge)
+
+### 📋 Uygulama Adımları
+
+#### 1.1 Gerçek Zamanlı Veri Toplama
+
+```typescript
+// backend/services/trackingService.ts
+interface UserAction {
+  userId: string;
+  movieId: number;
+  actionType: 'click' | 'view' | 'rate' | 'watchTime';
+  value: number;
+  timestamp: Date;
+}
+
+class TrackingService {
+  async recordAction(action: UserAction) {
+    await UserAction.create(action);
+    await redis.lpush(`user:${action.userId}:actions`, JSON.stringify(action));
+    this.triggerModelUpdate(action.userId);
+  }
+}
+```
+
+#### 1.2 Matrix Factorization Implementasyonu
+
+```typescript
+// backend/ml/matrixFactorization.ts
+import * as tf from '@tensorflow/tfjs-node';
+
+class MatrixFactorization {
+  private model: tf.LayersModel;
+  
+  async buildModel(userCount: number, movieCount: number, factors: number = 50) {
+    const userInput = tf.input({shape: [1]});
+    const movieInput = tf.input({shape: [1]});
+    
+    const userEmbedding = tf.layers.embedding({
+      inputDim: userCount,
+      outputDim: factors,
+      embeddingsRegularizer: tf.regularizers.l2({l2: 1e-6})
+    }).apply(userInput);
+    
+    const movieEmbedding = tf.layers.embedding({
+      inputDim: movieCount,
+      outputDim: factors
+    }).apply(movieInput);
+    
+    const dot = tf.layers.dot({axes: 2}).apply([userEmbedding, movieEmbedding]);
+    
+    this.model = tf.model({
+      inputs: [userInput, movieInput],
+      outputs: dot
+    });
+    
+    this.model.compile({
+      optimizer: 'adam',
+      loss: 'meanSquaredError'
+    });
+  }
+}
+```
+
+#### 1.3 Hibrit Algoritma
+
+```typescript
+// backend/services/recommendationEngine.ts
+class HybridRecommendationEngine {
+  async generateRecommendations(userId: string): Promise<Movie[]> {
+    const contentBasedScore = await this.contentBasedRecommendation(userId);
+    const collaborativeScore = await this.collaborativeFiltering(userId);
+    
+    const userProfile = await this.getUserProfile(userId);
+    const weights = this.calculateWeights(userProfile);
+    
+    const hybridScores = contentBasedScore.map((movie, index) => ({
+      movieId: movie.id,
+      score: (movie.score * weights.content) + 
+             (collaborativeScore[index].score * weights.collaborative)
+    }));
+    
+    return this.sortAndFilter(hybridScores);
+  }
+  
+  private calculateWeights(profile: UserProfile) {
+    const ratingCount = profile.ratings.length;
+    
+    if (ratingCount < 10) {
+      return { content: 0.8, collaborative: 0.2 };
+    } else if (ratingCount < 50) {
+      return { content: 0.6, collaborative: 0.4 };
+    } else {
+      return { content: 0.3, collaborative: 0.7 };
+    }
+  }
+}
+```
+
+### 🧪 Test Stratejisi
+
+```bash
+npm run test:recommendation-engine
+npm run test:ml-models
+npm run benchmark:recommendation-accuracy
+```
+
+### 📊 Başarı Kriterleri
+
+* Öneri doğruluğu: %75+ (RMSE < 0.8)
+* Response time: <200ms
+* Model update frequency: Her 1000 yeni rating'de bir
+
+---
+
+## 7. Geliştirme ve Güvenlik Geliştirmeleri
+
+### 7.1 Soğuk Başlangıç Alternatifleri
+
+* Yeni kullanıcılar için onboarding sırasında kısa tür testi sun.
+* Dış kaynak profili (IMDb, Letterboxd) ile ilk veri topla.
+
+### 7.2 Model Versiyonlama
+
+* MLflow veya DVC ile model versiyon kontrolü ekle.
+* Yeni model yayına alınmadan önce benchmark ve offline test gereksinimi tanımla.
+
+### 7.3 API Güvenliği
+
+* JWT tabanlı kimlik doğrulama.
+* `express-rate-limit` ile kötüye kullanıma karşı koruma.
+* Redis ile brute-force saldırı önlemleri.
+
+### 7.4 Admin Panel ve Dashboard
+
+* Next.js tabanlı React Admin arayüzü.
+* Öneri doğruluğu, kullanıcı dağılımı, öneri etkileşimi gibi metrikler için panel.
+
+### 7.5 Monitoring
+
+* Sentry ile frontend/backend hata takibi.
+* Prometheus + Grafana ile API ve model servis metrikleri.
+
+### 7.6 Offline Öneri Sistemi
+
+* Günlük batch önerileri Redis'e kaydeden cron job.
+* Gerçek zamanlıdan daha hızlı öneri API'si sunar.
+
+### 7.7 CI/CD ve Test Pipeline
+
+* GitHub Actions ile her committe otomatik test.
+* E2E testler için Playwright veya Cypress.
+
+### 7.8 Mobil UX Genişletmesi
+
+* Figma ile detaylı UX flow (onboarding, öneri gezintisi, favori işlemleri).
+* Offline mod (son öneriler AsyncStorage üzerinden).
+
+---
+
+*(Önceki başlıklarla birlikte tüm sistem sürdürülebilir, güvenli ve ölçülebilir hale getirilmiştir.)*
