@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { MovieCard } from './features/content/components/MovieCard';
 import { ProfileSection } from './features/profile/components/ProfileSection';
 import { RecommendationCard } from './features/recommendation/components/RecommendationCard';
@@ -266,19 +266,66 @@ function App() {
   const totalRecommendations = recommendations?.length || 0;
   const totalFilteredRecommendations = filteredRecommendations?.length || 0;
 
+  // Render modal components first to ensure hooks are always called in the same order
+  const modalComponents = (
+    <div style={{ display: 'contents' }}>
+      <ProfileForm
+        isOpen={showProfileForm}
+        onClose={() => setShowProfileForm(false)}
+        onSave={(data: any) => {
+          console.log('Profile data:', data);
+          setShowProfileForm(false);
+        }}
+        currentProfile={profile}
+      />
+
+      {/* Authentication Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onLogin={async (email, password) => {
+          try {
+            await login(email, password);
+            setShowAuthModal(false);
+          } catch (error) {
+            throw error; // Let the form handle the error
+          }
+        }}
+        onRegister={async (userData) => {
+          try {
+            await register(userData);
+            setShowAuthModal(false);
+          } catch (error) {
+            throw error; // Let the form handle the error
+          }
+        }}
+        onForgotPassword={async (email) => {
+          try {
+            await forgotPassword(email);
+          } catch (error) {
+            throw error; // Let the form handle the error
+          }
+        }}
+        isLoading={authLoading}
+      />
+    </div>
+  );
 
   // Onboarding gösteriliyorsa sadece onboarding'i göster
   if (showOnboarding) {
     return (
-      <OnboardingFlow
-        genres={genres || []}
-        onComplete={handleOnboardingComplete}
-        onRate={rateMovie}
-        getUserRating={getUserRating}
-        isInWatchlist={isInWatchlist}
-        onAddToWatchlist={addToWatchlist}
-        onRemoveFromWatchlist={removeFromWatchlist}
-      />
+      <div style={{ display: 'contents' }}>
+        <OnboardingFlow
+          genres={genres || []}
+          onComplete={handleOnboardingComplete}
+          onRate={rateMovie}
+          getUserRating={getUserRating}
+          isInWatchlist={isInWatchlist}
+          onAddToWatchlist={addToWatchlist}
+          onRemoveFromWatchlist={removeFromWatchlist}
+        />
+        {modalComponents}
+      </div>
     );
   }
 
@@ -812,45 +859,7 @@ function App() {
           </main>
         )}
 
-        <ProfileForm
-          isOpen={showProfileForm}
-          onClose={() => setShowProfileForm(false)}
-          onSave={(data) => {
-            console.log('Profile data:', data);
-            setShowProfileForm(false);
-          }}
-          currentProfile={profile}
-        />
-
-        {/* Authentication Modal */}
-        <AuthModal
-          isOpen={showAuthModal}
-          onClose={() => setShowAuthModal(false)}
-          onLogin={async (email, password) => {
-            try {
-              await login(email, password);
-              setShowAuthModal(false);
-            } catch (error) {
-              throw error; // Let the form handle the error
-            }
-          }}
-          onRegister={async (userData) => {
-            try {
-              await register(userData);
-              setShowAuthModal(false);
-            } catch (error) {
-              throw error; // Let the form handle the error
-            }
-          }}
-          onForgotPassword={async (email) => {
-            try {
-              await forgotPassword(email);
-            } catch (error) {
-              throw error; // Let the form handle the error
-            }
-          }}
-          isLoading={authLoading}
-        />
+        {modalComponents}
       </div>
     </div>
   );
