@@ -260,6 +260,28 @@ function App() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Başka bir sekmede veya BFI gibi farklı bir bileşende puan verildiğinde ratings'i anında güncelle
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'cinematch_ratings') {
+        setRatingsRefresh(r => r + 1);
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  // AI önerileri ekranında AI öğrenme içeriklerini yükle
+  useEffect(() => {
+    if (activeTab === 'recommendations' && !hasEnoughRatingsForAI && curatedContentLoading && movies.length === 0) {
+      loadAILearningContent();
+    }
+  }, [activeTab, hasEnoughRatingsForAI, curatedContentLoading, movies.length, loadAILearningContent]);
+
+  // Onboarding kontrolü - hiç puanlama yoksa ve onboarding tamamlanmamışsa onboarding'i başlat
+  useEffect(() => {
+    const validRatings = (ratings || []).filter(r => 
   // Loading state
   if (authLoading) {
     return (
@@ -316,39 +338,6 @@ function App() {
       </div>
     );
   }
-
-  // AI önerileri ekranında AI öğrenme içeriklerini yükle
-  useEffect(() => {
-    if (activeTab === 'recommendations' && !hasEnoughRatingsForAI && curatedContentLoading && movies.length === 0) {
-      loadAILearningContent();
-    }
-  }, [activeTab, hasEnoughRatingsForAI, curatedContentLoading, movies.length, loadAILearningContent]);
-
-  // Onboarding kontrolü - hiç puanlama yoksa ve onboarding tamamlanmamışsa onboarding'i başlat
-  useEffect(() => {
-    const validRatings = (ratings || []).filter(r => 
-      r.rating !== 'not_watched' && 
-      r.rating !== 'not_interested' && 
-      r.rating !== 'skip' &&
-      typeof r.rating === 'number' && 
-      r.rating >= 1 && 
-      r.rating <= 10
-    );
-    
-    // Onboarding tamamlanma durumunu kontrol et
-    const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
-    
-    // Eğer hiç geçerli puanlama yoksa ve onboarding tamamlanmamışsa onboarding'i başlat
-    if (validRatings.length === 0 && !onboardingCompleted && !showOnboarding) {
-      setShowOnboarding(true);
-    }
-    
-    // Eğer onboarding tamamlanmışsa ama hiç puanlama yoksa, onboarding'i tekrar başlat
-    if (validRatings.length === 0 && onboardingCompleted && !showOnboarding) {
-      localStorage.removeItem('onboardingCompleted');
-      setShowOnboarding(true);
-    }
-  }, [ratings, showOnboarding]);
 
   const phaseInfo = getPhaseInfo();
 
