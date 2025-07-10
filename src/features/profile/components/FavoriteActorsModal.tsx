@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, User, Star, Calendar, AlertCircle, Loader, Bookmark, BookmarkCheck, EyeOff } from 'lucide-react';
+import { X, User, Star, Calendar, AlertCircle, Loader, Bookmark, BookMarked, EyeOff } from 'lucide-react';
 import { tmdbService } from '../../content/services/tmdb';
 import { ContentFiltersComponent, type ContentFilters } from '../../recommendation/components/ContentFilters';
 import type { UserProfile, Movie, TVShow, Genre } from '../types';
@@ -669,7 +669,7 @@ export const FavoriteActorsModal: React.FC<FavoriteActorsModalProps> = ({
                                       >
                                         {isInWatchlist(content.id) ? (
                                           <>
-                                            <BookmarkCheck className="h-3 w-3" />
+                                            <BookMarked className="h-3 w-3" />
                                             <span>Listede</span>
                                           </>
                                         ) : (
@@ -822,7 +822,7 @@ export const FavoriteActorsModal: React.FC<FavoriteActorsModalProps> = ({
                                     }`}
                                   >
                                     {isInWatchlist(content.id) ? (
-                                      <BookmarkCheck className="h-3 w-3" />
+                                      <BookMarked className="h-3 w-3" />
                                     ) : (
                                       <Bookmark className="h-3 w-3" />
                                     )}

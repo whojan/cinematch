@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Film, Star, Calendar, AlertCircle, Loader, Bookmark, BookmarkCheck, EyeOff } from 'lucide-react';
+import { X, Film, Star, Calendar, AlertCircle, Loader, Bookmark, BookMarked, EyeOff } from 'lucide-react';
 import { tmdbService } from '../../content/services/tmdb';
 import { ContentFiltersComponent, type ContentFilters } from '../../recommendation/components/ContentFilters';
 import type { UserProfile, Movie, TVShow, Genre } from '../types';
