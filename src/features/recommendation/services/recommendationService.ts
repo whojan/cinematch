@@ -168,9 +168,9 @@ export class RecommendationService {
       // Rating filter
       filteredRecommendations = filteredRecommendations.filter(rec => {
         if (!rec?.movie || typeof rec.movie.vote_average !== 'number' || typeof rec.movie.vote_count !== 'number') return false;
-        return rec.movie.vote_average >= Math.max(8.0, filters.minRating) && 
+        return rec.movie.vote_average >= Math.max(6.0, filters.minRating) && 
                rec.movie.vote_average <= filters.maxRating &&
-               rec.movie.vote_count >= 200;
+               rec.movie.vote_count >= 100;
       });
 
       // Language filter
@@ -349,16 +349,16 @@ export class RecommendationService {
       const movieConfigs = [
         {
           with_genres: genreId.toString(),
-          'vote_average.gte': 8.0,
-          'vote_count.gte': 200,
+          'vote_average.gte': 6.0,
+          'vote_count.gte': 100,
           sort_by: 'vote_average.desc',
           page: Math.floor(Math.random() * 3) + 1,
           type: `premium_${genreName.toLowerCase()}`
         },
         {
           with_genres: genreId.toString(),
-          'vote_average.gte': 8.0,
-          'vote_count.gte': 200,
+          'vote_average.gte': 6.0,
+          'vote_count.gte': 100,
           sort_by: 'popularity.desc',
           page: Math.floor(Math.random() * 5) + 1,
           type: `popular_${genreName.toLowerCase()}`
@@ -369,16 +369,16 @@ export class RecommendationService {
       const tvConfigs = [
         {
           with_genres: genreId.toString(),
-          'vote_average.gte': 8.0,
-          'vote_count.gte': 200,
+          'vote_average.gte': 6.0,
+          'vote_count.gte': 100,
           sort_by: 'vote_average.desc',
           page: Math.floor(Math.random() * 3) + 1,
           type: `premium_tv_${genreName.toLowerCase()}`
         },
         {
           with_genres: genreId.toString(),
-          'vote_average.gte': 8.0,
-          'vote_count.gte': 200,
+          'vote_average.gte': 6.0,
+          'vote_count.gte': 100,
           sort_by: 'popularity.desc',
           page: Math.floor(Math.random() * 5) + 1,
           type: `popular_tv_${genreName.toLowerCase()}`
@@ -474,8 +474,8 @@ export class RecommendationService {
       try {
         const movieResponse = await tmdbService.discoverMovies({
           with_genres: genreId.toString(),
-          'vote_average.gte': 8.0,
-          'vote_count.gte': 200,
+          'vote_average.gte': 6.0,
+          'vote_count.gte': 100,
           sort_by: 'vote_average.desc',
           page: 1
         });
@@ -490,13 +490,13 @@ export class RecommendationService {
             recommendations.push({
               movie,
               matchScore: 65,
-              reasons: [`Yeni tür keşfi: ${genre?.name}`, 'Yüksek kaliteli yapım', 'Çeşitlilik önerisi'],
+              reasons: [`Yeni tür keşfi: ${genre?.name}`, 'Kaliteli yapım', 'Çeşitlilik önerisi'],
               confidence: 0.65,
               novelty: 0.8,
               diversity: 0.9,
               explanation: {
                 primaryFactors: [`Yeni tür keşfi: ${genre?.name}`],
-                secondaryFactors: ['Yüksek kaliteli yapım'],
+                secondaryFactors: ['Kaliteli yapım'],
                 riskFactors: ['Alışık olmadığın bir tür olabilir']
               },
               recommendationType: 'serendipitous'
@@ -506,8 +506,8 @@ export class RecommendationService {
 
         const tvResponse = await tmdbService.discoverTVShows({
           with_genres: genreId.toString(),
-          'vote_average.gte': 8.0,
-          'vote_count.gte': 200,
+          'vote_average.gte': 6.0,
+          'vote_count.gte': 100,
           sort_by: 'vote_average.desc',
           page: 1
         });
@@ -522,13 +522,13 @@ export class RecommendationService {
             recommendations.push({
               movie: tvShow,
               matchScore: 65,
-              reasons: [`Yeni tür keşfi: ${genre?.name}`, 'Yüksek kaliteli dizi', 'Çeşitlilik önerisi'],
+              reasons: [`Yeni tür keşfi: ${genre?.name}`, 'Kaliteli dizi', 'Çeşitlilik önerisi'],
               confidence: 0.65,
               novelty: 0.8,
               diversity: 0.9,
               explanation: {
                 primaryFactors: [`Yeni tür keşfi: ${genre?.name}`],
-                secondaryFactors: ['Yüksek kaliteli dizi'],
+                secondaryFactors: ['Kaliteli dizi'],
                 riskFactors: ['Alışık olmadığın bir tür olabilir']
               },
               recommendationType: 'serendipitous'
@@ -681,7 +681,7 @@ export class RecommendationService {
           
           if (creditsData.cast) {
             const topMovies = creditsData.cast
-              .filter((movie: any) => movie.vote_average >= 8.0 && movie.vote_count >= 200)
+              .filter((movie: any) => movie.vote_average >= 6.0 && movie.vote_count >= 100)
               .sort((a: any, b: any) => b.vote_average - a.vote_average)
               .slice(0, 4);
             
