@@ -21,23 +21,10 @@ export const BfiTopFilms: React.FC = () => {
   const [hideRated, setHideRated] = useState(false);
   const [hideWatchlisted, setHideWatchlisted] = useState(false);
 
-  // BFI listesini güncelle butonu için state
-  const [updating, setUpdating] = useState(false);
-  const [updateMsg, setUpdateMsg] = useState<string | null>(null);
-  const [progress, setProgress] = useState<number>(0);
-
   // Kullanıcı puanlarını ve watchlist'i yükle
   useEffect(() => {
     setUserRatings(StorageService.getRatings());
     setWatchlist(StorageService.getWatchlist().map(w => w.id));
-  }, []);
-
-  // Eğer bfiList boşsa otomatik güncelleme başlat
-  useEffect(() => {
-    if (Array.isArray(bfiList) && bfiList.length === 0 && !updating) {
-      setUpdateMsg('BFI listesi boş, güncelleniyor...');
-      handleUpdateBfiList();
-    }
   }, []);
 
   // userRating bulucu
@@ -219,70 +206,12 @@ export const BfiTopFilms: React.FC = () => {
     });
   }, [movieDetailsMap]);
 
-  // BFI güncelleme fonksiyonu
-  const handleUpdateBfiList = async () => {
-    setUpdating(true);
-    setUpdateMsg(null);
-    setProgress(0);
-    try {
-      const res = await fetch('http://localhost:4000/api/update-bfi-list', { method: 'POST' });
-      const data = await res.json();
-      if (!data.success) {
-        setUpdateMsg('Güncelleme sırasında hata oluştu.');
-        setUpdating(false);
-        return;
-      }
-      // SSE ile ilerlemeyi dinle
-      const eventSource = new window.EventSource(`http://localhost:4000/api/bfi-progress/${data.eventId}`);
-      eventSource.onmessage = (event) => {
-        try {
-          const msg = JSON.parse(event.data);
-          if (msg.progress) setProgress(Number(msg.progress));
-          if (msg.done) {
-            setUpdateMsg('BFI listesi başarıyla güncellendi!');
-            setUpdating(false);
-            setProgress(100);
-            eventSource.close();
-          }
-          if (msg.error) {
-            setUpdateMsg('Güncelleme sırasında hata oluştu: ' + msg.error);
-            setUpdating(false);
-            eventSource.close();
-          }
-        } catch {}
-      };
-    } catch (e) {
-      setUpdateMsg('Güncelleme sırasında hata oluştu.');
-      setUpdating(false);
-    }
-  };
-
   return (
     <div className="px-2 sm:px-4 lg:px-8 w-full">
       <h1 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
         <span role="img" aria-label="BFI">🎬</span> BFI Sight & Sound En İyi Filmler
       </h1>
       <div className="mb-4 text-slate-300 font-medium">Toplam {(bfiList as any[]).length} film</div>
-      <div className="mb-4 flex flex-col gap-2 items-start">
-        <div className="flex items-center gap-4">
-          <button
-            className="px-4 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 disabled:opacity-60"
-            onClick={handleUpdateBfiList}
-            disabled={updating}
-          >
-            {updating ? 'Güncelleniyor...' : 'Listeyi Güncelle'}
-          </button>
-          {updateMsg && <span className="text-sm text-green-400 ml-2">{updateMsg}</span>}
-        </div>
-        {updating && (
-          <div className="w-full min-w-[200px] bg-gray-200 rounded-full h-2.5">
-            <div className="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
-          </div>
-        )}
-        {updating && (
-          <div className="text-xs text-slate-400 mt-1">İlerleme: %{progress}</div>
-        )}
-      </div>
       {/* Filtreler */}
       <div className="mb-6 flex flex-wrap gap-4 items-center">
         {/* Tür filtresi */}
