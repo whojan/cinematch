@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "lucide-react": "^0.525.0",
