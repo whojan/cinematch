@@ -14,9 +14,7 @@ import { LearningService } from './features/learning/services/learningService';
 import { RealTimeLearningService } from './features/learning/services/realTimeLearningService';
 import { OnboardingFlow } from './features/onboarding';
 import { Sparkles, Star, Target, Brain, TestTube, TrendingUp, RefreshCw, Zap, Search, Menu, Download, Upload, Trash2 } from 'lucide-react';
-import { BfiTopFilms } from './features/content/components/BfiTopFilms';
-import { BfiDirectorsTopFilms } from './features/content/components/BfiDirectorsTopFilms';
-import { Best300Movies } from './features/content/components/Best300Movies';
+import { FeaturedLists } from './features/content/components/FeaturedLists';
 import { SkippedContentModal } from './features/profile/components/SkippedContentModal';
 
 function App() {
@@ -846,16 +844,8 @@ function App() {
                   </div>
                 )}
 
-                {activeTab === 'bfi' && (
-                  <BfiTopFilms />
-                )}
-
-                {activeTab === 'bfi-directors' && (
-                  <BfiDirectorsTopFilms />
-                )}
-
-                {activeTab === 'best300' && (
-                  <Best300Movies />
+                {activeTab === 'featured-lists' && (
+                  <FeaturedLists />
                 )}
 
                 {activeTab === 'skipped' && (

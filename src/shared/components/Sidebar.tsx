@@ -114,32 +114,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       borderColor: 'border-emerald-500/30'
     },
     {
-      id: 'bfi',
-      label: 'BFI En İyi Filmler',
+      id: 'featured-lists',
+      label: 'Öne Çıkan Listeler',
       icon: Award,
-      description: 'Sight & Sound En İyi 250',
-      color: 'from-indigo-500 to-purple-500',
-      bgColor: 'from-indigo-500/10 to-purple-500/10',
-      borderColor: 'border-indigo-500/30'
-    },
-    {
-      id: 'bfi-directors',
-      label: 'BFI Yönetmenler Listesi',
-      icon: Film,
-      description: 'Directors 100 Greatest',
-      color: 'from-indigo-500 to-purple-500',
-      bgColor: 'from-indigo-500/10 to-purple-500/10',
-      borderColor: 'border-indigo-500/30'
-    },
-    {
-      id: 'best300',
-      label: 'Rotten Tomatoes En İyi Filmler',
-      icon: undefined,
-      description: 'Tüm Zamanların En İyi Filmlerii',
-      color: 'from-pink-500 to-red-500',
-      bgColor: 'from-pink-500/10 to-red-500/10',
-      borderColor: 'border-pink-500/30',
-      emoji: '🍅'
+      description: 'Prestijli sinema listeleri',
+      color: 'from-purple-500 to-pink-500',
+      bgColor: 'from-purple-500/10 to-pink-500/10',
+      borderColor: 'border-purple-500/30'
     },
   ];
 
